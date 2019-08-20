@@ -18,7 +18,9 @@ class CreateBookingsTable extends Migration
             $table->integer('b_rid');
             $table->string('b_checkindate');
             $table->string('b_checkoutdate');
-            $table->string('b_rquantity');
+            $table->integer('b_rquantity');
+            $table->string('b_package');
+            $table->integer('b_status');
             $table->timestamps();
         });
     }

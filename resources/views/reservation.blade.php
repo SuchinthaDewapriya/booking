@@ -180,6 +180,9 @@
                 //     total =+ subtotal+ + packageTotal;
                 // }
                 console.log(newqty)
+                $(".rooms .packageRate_"+id).empty()
+                $(".rooms .totalpackageRate1_"+id).empty()
+
                 $(".rooms .packageRate_"+id).html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Package Rates:</small>Rs.'+packageTotal+'/<small class="small">Night</small></div>');
                 $(".rooms .totalpackageRate_"+id).attr({"value":packageTotal})
                 $(".rooms .rates_"+id).html('<small class="small">Room Rates:</small>Rs.'+roomtotal+'/<small class="small">Night</small>');
@@ -195,7 +198,7 @@
                 if (newqty > 1) {
                     $(".rooms .additionalRoom").append('<div class="row"><div class="col-md-12"><h3 class="room-name">Additional Bed</h3></div></div><div class="row">')
                     for (i = 0; i < newqty; i++) {
-                        $(".rooms .additionalRoom").append('<div class="col-md-4" style="padding:5px;"><input type="number" class="additionalbedquantity" onChange="bedQuantity('+(i+1)+')" id="additionalbedquantity'+(i+1)+'" class="form-control" placeholder="Room number '+(i+1)+'"></div>')
+                        $(".rooms .additionalRoom").append('<div class="col-md-4" style="padding:5px;"><input type="number" class="form-control additionalbedquantity" onChange="bedQuantity('+(i+1)+')" id="additionalbedquantity'+(i+1)+'" placeholder="Room number '+(i+1)+'"></div>')
                     }
                     $(".rooms .additionalRoom").append('</div></br></br>')
                 }
@@ -260,6 +263,7 @@
                 var total = packageTotal;
                 console.log(total)
 
+                $(".rooms .packageRate_"+id).empty()
                 
                 $(".rooms .additionalPackage_"+id).attr({"value":additional})
                 $(".rooms .packageRate_"+id).html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Package Rates:</small>Rs.'+total+'/<small class="small">Night</small></div>');

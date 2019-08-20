@@ -17,6 +17,7 @@ class CreateAdditionalPackagesTable extends Migration
             $table->bigIncrements('p_id');
             $table->string('p_name');
             $table->double('p_price');
+            $table->integer('p_additional_bed');
             $table->integer('p_status');
             $table->timestamps();
         });
