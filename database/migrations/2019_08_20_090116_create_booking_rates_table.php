@@ -20,6 +20,7 @@ class CreateBookingRatesTable extends Migration
             $table->integer('br_packageRate');
             $table->integer('br_bedmRate');
             $table->integer('br_totalRate');
+            $table->integer('br_status');
             $table->timestamps();
         });
     }
