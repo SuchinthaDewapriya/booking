@@ -2,4 +2,4 @@
 
 @section('adminContent')
     
-@endsection
+@endsection 

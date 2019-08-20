@@ -22,4 +22,4 @@ Route::get('reservation', 'SearchController@reservation');
 
 //Admin Route
 Route::get('admin', 'AdminController@Index');
-
+Route::get('bookings', 'AdminController@Bookings');

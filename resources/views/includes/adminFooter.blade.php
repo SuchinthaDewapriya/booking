@@ -1,5 +1,6 @@
+
+
 <!-- jQuery -->
-<script src="{{ asset('public/admin/plugins/jquery/jquery.min.js')}}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('public/admin/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -35,5 +36,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('public/admin/dist/js/demo.js')}}"></script>
 
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 </body>
 </html>
