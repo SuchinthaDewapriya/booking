@@ -136,21 +136,21 @@
               </li>
                 <li class="nav-item has-treeview">
                   <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-table"></i>
+                    <i class="nav-icon fas fa-bed"></i>
                     <p>
-                      Bookings
+                      Rooms 
                       <i class="fas fa-angle-left right"></i>
                     </p>
                   </a> 
                   <ul class="nav nav-treeview">
                     <li class="nav-item">
                       <a href="pages/tables/simple.html" class="nav-link">
-                        <p>Simple Tables</p>
+                        <p>All</p>
                       </a>
                     </li>
                     <li class="nav-item">
                       <a href="pages/tables/data.html" class="nav-link">
-                        <p>DataTables</p>
+                        <p>Add new</p>
                       </a>
                     </li>
                     <li class="nav-item">
