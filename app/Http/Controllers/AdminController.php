@@ -74,34 +74,28 @@ class AdminController extends Controller
         return $editRoom;
     }
 
-    public function AddNewRoom(Request $request)
+    public function AddNewPackage(Request $request)
     {
         // dd($request->all());
-        $imageName = time().'.'.request()->roomImage->getClientOriginalExtension();  
-        request()->roomImage->move(public_path('images/rooms'), $imageName);
-
-        $NewRoom = Room::insert([
-            'r_name' => $request->roomName,
-            'r_price' => $request->roomRate,
-            'r_quantity' => $request->roomQuantity,
-            'r_bookquantity' => 0,
-            'r_additional_bed' => $request->additionalBedRate,
-            'r_image' => $imageName,
-            'r_status' => 1
+        $NewRoom = AdditionalPackage::insert([
+            'p_name' => $request->packageName,
+            'p_price' => $request->packageRate,
+            'p_additional_bed' => $request->additionalBedRate,
+            'p_status' => 1
         ]);
         
-        $getRoom = Room::get();
+        $getPackage = AdditionalPackage::get();
 
-        return response()->json(['getRoom'=>$getRoom]);
+        return response()->json(['getPackage'=>$getPackage]);
     }
-    public function DeleteAllRooms()
+    public function DeleteAllPackages()
     {
         $deleteAll = Room::truncate();
         
         $getRoom = Room::get();
         return response()->json(['getRoom'=>$getRoom]);
     }
-    public function RoomDelete($id)
+    public function PackageDelete($id)
     {
 
         Room::where('r_id',$id)->delete();
@@ -109,7 +103,7 @@ class AdminController extends Controller
         $getRoom = Room::get();
         return response()->json(['getRoom'=>$getRoom]);
     }
-    function RoomEdit($id) {
+    function Packagedit($id) {
         $editRoom = Room::where('r_id', $id)->first();
 
         return $editRoom;
