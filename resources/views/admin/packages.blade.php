@@ -2,9 +2,22 @@
 
 @section('adminContent')
 <section class="content">
+    <div class="row main-padding">
+        <h3>Packages</h3>
+    </div>
+    <div class="row main-padding">
+        <div class="col-md-4"></div>
+        <div class="col-md-2" style="padding-bottom:5px;">
+            <a href="" class="btn btn-warning">Add new</a>
+        </div>
+        <div class="col-md-2">
+            <a href="" class="btn btn-danger">Delete all</a>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
     <div class="row">
         <div class="card-body">
-            <table id="example2" class="table table-bordered table-hover">
+            <table id="Packages" class="table table-bordered table-hover">
               <thead>
               <tr>
                 <th>Rendering engine</th>
@@ -47,7 +60,7 @@
 </section>
 <script>
     $(document).ready( function () {
-    $('#example2').DataTable();
+    $('#Packages').DataTable();
 } );
     
   </script>

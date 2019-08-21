@@ -129,36 +129,60 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ url('bookings')}}" class="nav-link">
+                  <a href="{{ url('reservations')}}" class="nav-link">
                       <i class="nav-icon fas fa-table"></i>
-                      <p>Bookings</p>
+                      <p>Reservations</p>
                   </a>
-              </li>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ url('rooms')}}" class="nav-link">
+                    <i class="nav-icon fas fa-bed"></i>
+                      <p>Rooms</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ url('packages')}}" class="nav-link">
+                    <i class="nav-icon fas fa-coffee"></i>
+                      <p>Packages</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ url('packages')}}" class="nav-link">
+                    <i class="nav-icon fas fa-user"></i>
+                      <p>Users</p>
+                  </a>
+                </li>
                 <li class="nav-item has-treeview">
                   <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-bed"></i>
+                    <i class="nav-icon fas fa-paint-brush"></i>
                     <p>
-                      Rooms 
+                      Appearance  
                       <i class="fas fa-angle-left right"></i>
                     </p>
                   </a> 
                   <ul class="nav nav-treeview">
                     <li class="nav-item">
                       <a href="pages/tables/simple.html" class="nav-link">
-                        <p>All</p>
+                        <p>Slider</p>
                       </a>
                     </li>
                     <li class="nav-item">
                       <a href="pages/tables/data.html" class="nav-link">
-                        <p>Add new</p>
+                        <p>Footer</p>
                       </a>
                     </li>
                     <li class="nav-item">
                       <a href="pages/tables/jsgrid.html" class="nav-link">
-                        <p>jsGrid</p>
+                        <p>Colors</p>
                       </a>
                     </li>
                   </ul>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ url('packages')}}" class="nav-link">
+                    <i class="nav-icon fas fa-cog"></i>
+                      <p>Settings</p>
+                  </a>
                 </li>
               </ul>
             </nav>

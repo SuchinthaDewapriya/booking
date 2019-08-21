@@ -22,4 +22,11 @@ Route::get('reservation', 'SearchController@reservation');
 
 //Admin Route
 Route::get('admin', 'AdminController@Index');
-Route::get('bookings', 'AdminController@Bookings');
+Route::get('reservations', 'AdminController@Reservations');
+Route::get('rooms', 'AdminController@Rooms');
+Route::get('packages', 'AdminController@Packages');
+
+Route::post('add-new-room', 'AdminController@AddNewRoom'); 
+Route::get('delete-all-rooms', 'AdminController@DeleteAllRooms'); 
+Route::get('room-delete/{id}', 'AdminController@RoomDelete'); 
+Route::get('edit-room/{id}', 'AdminController@RoomEdit'); 
