@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Room;
 
+use App\AdditionalPackage;
+
 class AdminController extends Controller
 {
     public function __construct()
@@ -28,8 +30,50 @@ class AdminController extends Controller
     }
     public function Packages()
     {
-        return view('admin.packages');
+        $Package = AdditionalPackage::get();
+        return view('admin.packages')->with('Package',$Package);
     }
+    public function AddNewRoom(Request $request)
+    {
+        // dd($request->all());
+        $imageName = time().'.'.request()->roomImage->getClientOriginalExtension();  
+        request()->roomImage->move(public_path('images/rooms'), $imageName);
+
+        $NewRoom = Room::insert([
+            'r_name' => $request->roomName,
+            'r_price' => $request->roomRate,
+            'r_quantity' => $request->roomQuantity,
+            'r_bookquantity' => 0,
+            'r_additional_bed' => $request->additionalBedRate,
+            'r_image' => $imageName,
+            'r_status' => 1
+        ]);
+        
+        $getRoom = Room::get();
+
+        return response()->json(['getRoom'=>$getRoom]);
+    }
+    public function DeleteAllRooms()
+    {
+        $deleteAll = Room::truncate();
+        
+        $getRoom = Room::get();
+        return response()->json(['getRoom'=>$getRoom]);
+    }
+    public function RoomDelete($id)
+    {
+
+        Room::where('r_id',$id)->delete();
+
+        $getRoom = Room::get();
+        return response()->json(['getRoom'=>$getRoom]);
+    }
+    function RoomEdit($id) {
+        $editRoom = Room::where('r_id', $id)->first();
+
+        return $editRoom;
+    }
+
     public function AddNewRoom(Request $request)
     {
         // dd($request->all());
