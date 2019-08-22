@@ -2169,4 +2169,8 @@ input[type="radio"]:checked + label::after {
 .unchecked{
   display: none;
 }
+.totalrate{
+  font-size: 16px;
+  font-weight: bold;
+}
 /*# sourceMappingURL=style.css.map */

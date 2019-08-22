@@ -162,6 +162,13 @@
                 var newqty = $('.roomQuantity2_'+id).val();
                 var price = $('#fixedrate_'+id).val();
                 var total = 0
+
+                //TotalRate .........................
+                var TotalRateAdditionalPackage = $(".rooms .additionalPackage_"+id).val()
+                var TotalRatePackage1 = $(".rooms .totalpackageRate1_"+id).val()
+                var TotalRateBedtotal = $(".rooms .bedtotalrate_"+id).val()
+
+                //....................................
                 
                 if (newqty == 0) {
                     var packageTotal = $("input[name='package']:checked").val();
@@ -171,6 +178,8 @@
                 }
 
                 var roomtotal = price * newqty
+
+                var FinalTotal = + packageTotal + + roomtotal + + TotalRateAdditionalPackage + + TotalRatePackage1 + + TotalRateBedtotal
 
                 // if ($("input[name='package']:checked").val() == "0") {
                 //     var subtotal = price * newqty;
@@ -183,6 +192,7 @@
                 $(".rooms .packageRate_"+id).empty()
                 $(".rooms .totalpackageRate1_"+id).empty()
 
+                $(".rooms #TotalRate").html('<small class="totalrate">Total Rates: </small>Rs.'+FinalTotal+'/<small class="small">Night</small>')
                 $(".rooms .packageRate_"+id).html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Package Rates:</small>Rs.'+packageTotal+'/<small class="small">Night</small></div>');
                 $(".rooms .totalpackageRate_"+id).attr({"value":packageTotal})
                 $(".rooms .rates_"+id).html('<small class="small">Room Rates:</small>Rs.'+roomtotal+'/<small class="small">Night</small>');
@@ -229,7 +239,9 @@
                         }
                         var pack = ''
                         $.each(response.packages, function(k,v){
-                             pack += '<div class="col-md-4"><section class="custom-section"><div><input type="radio" class="package" id="control_0'+v.p_id+'" data-idpackage="'+v.r_id+'" onchange="radioChange('+v.p_additional_bed+')"  name="package" value="'+v.p_price+'"><label for="control_0'+v.p_id+'" class="custom-label">'+v.p_name+'</label></div></section></div>'
+                             pack += '<div class="col-md-4"><section class="custom-section"><div><input type="radio" class="package" id="control_0'
+                             +v.p_id+'" data-idpackage="'+v.r_id+'" onchange="radioChange('+v.p_additional_bed+')"  name="package" value="'
+                             +v.p_price+'"><label for="control_0'+v.p_id+'" class="custom-label">'+v.p_name+'</label></div></section></div>'
                         })
 
                         $('.rooms').append('<form id="CartForm">@csrf<div class="card reservation-card"><div class="card-body"><div class="card reservation-card1"><div class="card-body"><div class="row"><div class="col-md-5"><img src="{{ asset('public/images/rooms')}}/'
@@ -237,10 +249,32 @@
                         +v.r_name+'</h2><span class="room-name">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita reiciendis nemo rem id quo maxime asperiores debitis deleniti a sunt unde, aspernatur at sequi quisquam aliquid velit. Alias, autem! Modi.</span></div></div><hr><div class="row">'
                             +pack+'<input type="radio" class="package unchecked" id="unchecked" name="package" value="0" checked><label for="unchecked" class="custom-label unchecked"></label></div><hr><div class="row"><div class="col-md-12"><div class="additionalRoom"></div></div></div><br><div class="row"><div class="col-md-4"><input class="form-control roomQuantity roomQuantity2_'
                             +v.r_id+'" name="quantity" placeholder="Quantity" type="number" max="'
-                            +maxquantity+'" data-id="'+v.r_id+'" min="0" id="r_newquantity'+v.r_id+'"></div><div class="col-md-4"></div><div class="col-md-4 align-middle"><span class="rates rates_'+v.r_id+'"><small class="small">Room Rates: </small>Rs.00.00/<small class="small">Night</small></span></div><input type="hidden" id="rate" class="totalratebed_'
-                            +v.r_id+'" name="ratebed" value="'+v.r_price+'"><input type="hidden" id="rate" class="totalrate_'+v.r_id+'" name="rate" value="'+v.r_price+'"><input type="hidden" id="fixedrate_'+v.r_id+'" name="fixedrate" value="'+v.r_price+'"></div><div class="row rates"><div class="packageRate_'+v.r_id+'"></div></div><div class="row rates"><div class="bedRate"></div></div><br><div class="row"><div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4 mobile-padding"><input type="hidden" name="id" value="'
-                            +v.r_id+'" ><input type="hidden" value="'+v.r_image+'" id="image'+v.r_id+'" name="image"><input type="hidden" name="r_name" id="r_name'+v.r_id+'" value="'
-                            +v.r_name+'" ><input type="hidden" class="additionalPackage_'+v.r_id+'" value=""><input type="hidden" class="totalpackageRate_'+v.r_id+'" value=""><input type="hidden" class="bedtotalrate_'+v.r_id+'" value="00.00"><input type="hidden" id="roomid" value="'+v.r_id+'"><input type="hidden" id="additionalbed'+v.r_id+'" data-roomid="'+v.r_id+'" value="'+v.r_additional_bed+'"><input type="hidden" name="packagerate" value="" id="packagerate"><input type="hidden" value="'+response.days+'" id="days'+v.r_id+'" name="days"><button type="button" onClick="addToCart('+v.r_id+')" class="btn btn-warning">Reserve</button></div></div></div></div></form>')
+                            +maxquantity+'" data-id="'
+                            +v.r_id+'" min="0" id="r_newquantity'
+                            +v.r_id+'"></div><div class="col-md-4"></div><div class="col-md-4 align-middle"><span class="rates rates_'
+                            +v.r_id+'"><small class="small">Room Rates: </small>Rs.00.00/<small class="small">Night</small></span></div><input type="hidden" id="rate" class="totalratebed_'
+                            +v.r_id+'" name="ratebed" value="'
+                            +v.r_price+'"><input type="hidden" id="rate" class="totalrate_'
+                            +v.r_id+'" name="rate" value="'
+                            +v.r_price+'"><input type="hidden" id="fixedrate_'
+                            +v.r_id+'" name="fixedrate" value="'
+                            +v.r_price+'"></div><div class="row rates"><div class="packageRate_'
+                            +v.r_id+'"></div></div><div class="row rates"><div class="bedRate"></div></div><br><div class="row"><div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><div id="TotalRate"><small class="totalrate">Total Rates: </small>Rs.00.00/<small class="small">Night</small></div></div></div><br><div class="row"><div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4 mobile-padding"><input type="hidden" name="id" value="'
+                            +v.r_id+'" ><input type="hidden" value="'
+                            +v.r_image+'" id="image'
+                            +v.r_id+'" name="image"><input type="hidden" name="r_name" id="r_name'
+                            +v.r_id+'" value="'
+                            +v.r_name+'" ><input type="hidden" class="additionalPackage_'
+                            +v.r_id+'" value=""><input type="hidden" class="totalpackageRate_'
+                            +v.r_id+'" value=""><input type="hidden" class="bedtotalrate_'
+                            +v.r_id+'" value="00.00"><input type="hidden" id="roomid" value="'
+                            +v.r_id+'"><input type="hidden" class="totalpackageRate1_'+v.r_id+'"><input type="hidden" id="additionalbed'
+                            +v.r_id+'" data-roomid="'
+                            +v.r_id+'" value="'
+                            +v.r_additional_bed+'"><input type="hidden" name="packagerate" value="" id="packagerate"><input type="hidden" value="'
+                            +response.days+'" id="days'
+                            +v.r_id+'" name="days"><button type="button" onClick="addToCart('
+                            +v.r_id+')" class="btn btn-warning">Reserve</button></div></div></div></div></form>')
                     })
                 },
                 complete:function(data){
@@ -253,6 +287,13 @@
         function radioChange(additional){
                 var id = $('.roomQuantity').data('id');
                 var newqty = $('.roomQuantity2_'+id).val();
+
+                //TotalRate .........................
+                var TotalRateAdditionalPackage = $(".rooms .additionalPackage_"+id).val()
+                var TotalRatePackage1 = $(".rooms .totalpackageRate1_"+id).val()
+                var TotalRateBedtotal = $(".rooms .bedtotalrate_"+id).val()
+                //....................................
+
                 if (newqty == 0) {
                     var packageTotal = $("input[name='package']:checked").val();
                 } else {
@@ -269,6 +310,7 @@
                 $(".rooms .packageRate_"+id).html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Package Rates:</small>Rs.'+total+'/<small class="small">Night</small></div>');
                 $(".rooms .totalpackageRate_"+id).attr({"value":total});
                 // $(".rooms .totalrate_"+id).attr({"value":total});
+                
                 
             }
             var id_array = {}
