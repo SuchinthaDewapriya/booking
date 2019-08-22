@@ -180,14 +180,43 @@
             url: "{{ url('edit-room')}}"+ '/' + id,
             data : {'_method' : 'GET'},
             success: function (response) {
-                $('#exampleModalLongTitle').text('Edit room')
-                $('#roomName').val(response.r_name)
-                $('#roomRate').val(response.r_price)
-                $('#roomQuantity').val(response.r_quantity)
-                $('#additionalBedRate').val(response.r_additional_bed)
-                $('.bd-newroom-modal-lg').modal('show')
+                $('#updateRoomId').val(response.r_id)
+                $('#UpdateroomName').val(response.r_name)
+                $('#UpdateroomRate').val(response.r_price)
+                $('#UpdateroomQuantity').val(response.r_quantity)
+                $('#UpdateadditionalBedRate').val(response.r_additional_bed)
+                $('.bd-updateroom-modal-lg').modal('show')
             }
         });
+    }
+
+    function Updateroom() {
+        $('#UpdateRoomForm').on('submit',(function(e) {
+        e.preventDefault()
+        var UpdateRoom = new FormData(this)
+        $.ajax({
+            type: "POST",
+            url: "{{ url('update-room')}}",
+            data: UpdateRoom,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $('.bd-updateroom-modal-lg').modal('hide')
+                $(".inputclear").val('');
+                swal("Success!", "Updated room!", "success")
+                $('#roomTable').empty()
+                $.each(response.getRoom,function(k,v) { 
+                    $('#roomTable').append('<tr><td><img src="{{ asset('public/images/rooms')}}/'
+                    +v.r_image+'" width="50px"></td><td>'+v.r_name+'</td><td>'+v.r_price+'</td><td>'
+                    +v.r_quantity+'</td><td>'+v.r_additional_bed+'</td><td><a onclick="DeleteSingleRoom('+v.r_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a href="{{ url('room-edit')}}/'
+                    +v.r_id+'" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
+                })
+            }
+        })
+    }))
+    
+     
     }
 </script>
 @endsection 

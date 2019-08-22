@@ -30,8 +30,10 @@ Route::post('add-new-room', 'AdminController@AddNewRoom');
 Route::get('delete-all-rooms', 'AdminController@DeleteAllRooms'); 
 Route::get('room-delete/{id}', 'AdminController@RoomDelete'); 
 Route::get('edit-room/{id}', 'AdminController@RoomEdit'); 
+Route::post('update-room', 'AdminController@RoomUpdate');
 
 Route::post('add-new-package', 'AdminController@AddNewPackage'); 
-Route::get('delete-all-packages', 'AdminController@DeleteAllPackage'); 
+Route::get('delete-all-packages', 'AdminController@DeleteAllPackages'); 
 Route::get('package-delete/{id}', 'AdminController@PackageDelete'); 
 Route::get('edit-package/{id}', 'AdminController@PackageEdit'); 
+Route::post('update-package', 'AdminController@PackageUpdate');

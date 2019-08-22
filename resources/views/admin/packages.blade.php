@@ -8,7 +8,7 @@
     <div class="row main-padding">
         <div class="col-md-4"></div>
         <div class="col-md-2" style="padding-bottom:5px;">
-                <button type="button"  onclick="AddnewPackage()" class="btn btn-warning">Add new</button>
+            <button type="button"  onclick="AddnewPackage()" class="btn btn-warning">Add new</button>
         </div>
         <div class="col-md-2">
             <button type="button" onclick="DeleteAllPackage()" class="btn btn-danger">Delete all</button>
@@ -28,7 +28,7 @@
               </tr>
               </thead>
 
-              <tbody id="packageTable">
+              <tbody id="packageTable"> 
               @foreach ($Package as $Packages)
                 <tr>
                     <td>{{$Packages->p_name}}</td>
@@ -61,12 +61,11 @@
 <script>
 
     function AddnewPackage() {
-        $('#exampleModalLongTitle').text('Add new package')
-        $('#packageName').val('')
-        $('#packageRate').val('')
-        $('#packageQuantity').val('')
+        $('#PackageModelTitle').text('Add new package')
+        $('#PackageName').val('')
+        $('#PackageRate').val('')
         $('#additionalBedRate').val('')
-        $('.bd-newpackage-modal-lg').modal('show')
+        $('.bd-newPackage-modal-lg').modal('show')
     }
     
     $(document).ready( function () {
@@ -87,15 +86,15 @@
             contentType: false,
             processData: false,
             success: function (response) {
-                $('.bd-newpackage-modal-lg').modal('hide')
+                $('.bd-newPackage-modal-lg').modal('hide')
                 $(".inputclear").val('');
                 swal("Success!", "Added new package!", "success")
                 $('#packageTable').empty()
                 $.each(response.getPackage,function(k,v) { 
                     $('#packageTable').append('<tr><td>'+v.p_name+'</td><td>'+v.p_price+'</td><td>'
                       +v.p_additional_bed+'</td><td><a onclick="DeleteSinglePackage('
-                        +v.p_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a href="{{ url('package-edit')}}/'
-                    +v.p_id+'" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
+                      +v.p_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a onclick="EditPackage('
+                      +v.p_id+')"  class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a><i class="fas fa-pencil-alt"></i></a></td></tr>')
                 })
             }
         })
@@ -119,8 +118,8 @@
                     $('#packageTable').empty()
                     $.each(response.getPackage,function(k,v) { 
                     $('#packageTable').append('<tr><td>'+v.p_name+'</td><td>'+v.p_price+'</td><td>'+v.p_additional_bed+'</td><td><a onclick="DeleteSinglePackage('
-                    +v.p_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a href="{{ url('package-edit')}}/'
-                    +v.p_id+'" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
+                    +v.p_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a onclick="EditPackage('
+                    +v.p_id+')"  class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
                     })
                     swal("Poof! Your imaginary file has been deleted!", {
                         icon: "success",
@@ -150,8 +149,8 @@
                         $('#packageTable').empty()
                         $.each(response.getPackage,function(k,v) { 
                             $('#packageTable').append('<tr><td>'+v.p_name+'</td><td>'+v.p_price+'</td><td>'+v.p_additional_bed+'</td><td><a onclick="DeleteSinglePackage('
-                            +v.p_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a href="{{ url('package-edit')}}/'
-                            +v.p_id+'" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
+                            +v.p_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a onclick="EditPackage('
+                            +v.p_id+')"  class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
                         })
                     }
                 });
@@ -170,14 +169,34 @@
             url: "{{ url('edit-package')}}"+ '/' + id,
             data : {'_method' : 'GET'},
             success: function (response) {
-                $('#exampleModalLongTitle').text('Edit package')
-                $('#packageName').val(response.p_name)
-                $('#packageRate').val(response.p_price)
-                $('#packageQuantity').val(response.p_quantity)
-                $('#additionalBedRate').val(response.p_additional_bed)
-                $('.bd-newpackage-modal-lg').modal('show')
+                $('#UpdatePackageName').val(response.p_name)
+                $('#UpdatePackageId').val(response.p_id)
+                $('#UpdatePackageRate').val(response.p_price)
+                $('#UpdateadditionalBedRate').val(response.p_additional_bed)
+                $('.bd-updatePackage-modal-lg').modal('show')
             }
         });
+    }
+
+    function UpdatePackage() {
+      var UpdateForm = $('#UpdatePackageFrom').serialize()
+      $.ajax({
+        type: "POST",
+        url: "{{ url('update-package') }}",
+        data: UpdateForm,
+        success: function (response) {
+          $('.bd-newPackage-modal-lg').modal('hide')
+          $(".inputclear").val('');
+          $('#packageTable').empty()
+          $.each(response.getPackage,function(k,v) { 
+              $('#packageTable').append('<tr><td>'+v.p_name+'</td><td>'+v.p_price+'</td><td>'
+                +v.p_additional_bed+'</td><td><a onclick="DeleteSinglePackage('
+                +v.p_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a onclick="EditPackage('
+                +v.p_id+')"  class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
+          })
+          swal("Success!", "Added new package!", "success")
+        }
+      });
     }
 </script>
 @endsection 

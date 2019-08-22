@@ -73,13 +73,30 @@ class AdminController extends Controller
 
         return $editRoom;
     }
+    public function RoomUpdate(Request $request)
+    {
+        $imageName = time().'.'.request()->roomImage->getClientOriginalExtension();  
+        request()->roomImage->move(public_path('images/rooms'), $imageName);
+
+        $updateRoom = Room::where('r_id', $request->updateRoomId)->update([
+            'r_name' => $request->roomName,
+            'r_price' => $request->roomRate,
+            'r_quantity' => $request->roomQuantity,
+            'r_additional_bed' => $request->additionalBedRate,
+            'r_image' => $imageName,
+            'r_status' => 1
+        ]);
+        $getRoom = Room::get();
+        return response()->json(['getRoom'=>$getRoom]);
+    }
+
 
     public function AddNewPackage(Request $request)
     {
         // dd($request->all());
-        $NewRoom = AdditionalPackage::insert([
-            'p_name' => $request->packageName,
-            'p_price' => $request->packageRate,
+        $NewPackage = AdditionalPackage::insert([
+            'p_name' => $request->PackageName,
+            'p_price' => $request->PackageRate,
             'p_additional_bed' => $request->additionalBedRate,
             'p_status' => 1
         ]);
@@ -90,22 +107,33 @@ class AdminController extends Controller
     }
     public function DeleteAllPackages()
     {
-        $deleteAll = Room::truncate();
+        $deleteAll = AdditionalPackage::truncate();
         
-        $getRoom = Room::get();
-        return response()->json(['getRoom'=>$getRoom]);
+        $getPackage = AdditionalPackage::get();
+        return response()->json(['getPackage'=>$getPackage]);
     }
     public function PackageDelete($id)
     {
 
-        Room::where('r_id',$id)->delete();
+        AdditionalPackage::where('p_id',$id)->delete();
 
-        $getRoom = Room::get();
-        return response()->json(['getRoom'=>$getRoom]);
+        $getPackage = AdditionalPackage::get();
+        return response()->json(['getPackage'=>$getPackage]);
     }
-    function Packagedit($id) {
-        $editRoom = Room::where('r_id', $id)->first();
+    function PackageEdit(Request $request, $id) {
+        $editPackage = AdditionalPackage::where('p_id', $id)->first();
 
-        return $editRoom;
+        return $editPackage;
+    }
+    public function PackageUpdate(Request $request)
+    {
+        $updatePackage = AdditionalPackage::where('p_id', $request->UpdatePackageId)->update([
+            'p_name' => $request->PackageName,
+            'p_price' => $request->PackageRate,
+            'p_additional_bed' => $request->additionalBedRate,
+            'p_status' => 1
+        ]);
+        $getPackage = AdditionalPackage::get();
+        return response()->json(['getPackage'=>$getPackage]);
     }
 }
