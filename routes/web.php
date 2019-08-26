@@ -20,6 +20,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('reservation', 'SearchController@reservation');
 // Route::post('addtoCart/{id}', 'SearchController@Addtocart');
 
+//Booking Routes
+Route::post('confirm-order', 'BookingController@ConfirmOrder');
+
 //Admin Route
 Route::get('admin', 'AdminController@Index');
 Route::get('reservations', 'AdminController@Reservations');
@@ -36,4 +39,4 @@ Route::post('add-new-package', 'AdminController@AddNewPackage');
 Route::get('delete-all-packages', 'AdminController@DeleteAllPackages'); 
 Route::get('package-delete/{id}', 'AdminController@PackageDelete'); 
 Route::get('edit-package/{id}', 'AdminController@PackageEdit'); 
-Route::post('update-package', 'AdminController@PackageUpdate');
+Route::post('update-package', 'AdminController@PackageUpdate'); 
