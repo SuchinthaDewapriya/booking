@@ -51,7 +51,7 @@
                                                     {{$quantity}}
                                                 </td>
                                                 <td>
-                                                    {{$ratebed}}
+                                                    {{$ratebed}} <br>
                                                 </td>
                                             </tr>
                                         </tbody>

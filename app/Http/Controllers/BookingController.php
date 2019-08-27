@@ -11,7 +11,7 @@ class BookingController extends Controller
 
        return view('checkout')
        ->with('quantity', $req->quantity)
-       ->with('bed[]', $req->quantity)
+       ->with('bed', $req->bed)
        ->with('ratebed', $req->ratebed)
        ->with('fixedrate', $req->fixedrate)
        ->with('id', $req->id)
