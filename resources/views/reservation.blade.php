@@ -156,7 +156,7 @@
         function Check() {
             var checkForm = $("#checkForm").serialize();
             $.ajax({
-                type: "POST",
+                type: "POST", 
                 url: "{{ url('checkAvailability') }}",
                 data: checkForm,
                 beforeSend: function(){
@@ -165,7 +165,7 @@
                     $("#searchLoader").show();
                 },
                 success: function (response) {
-                    console.log(response.id)
+                    console.log(response.checkIn)
                     $.each(response.checkRoom, function(k,v){
                         var maxquantity = 0;
                         if (response.id ==  1) {
@@ -208,7 +208,9 @@
                             +v.r_id+'" name="totalpackageRate1"><input type="hidden" id="additionalbed'
                             +v.r_id+'" name="additionalbed" data-roomid="'
                             +v.r_id+'" value="'
-                            +v.r_additional_bed+'"><input type="hidden" name="packagerate" value="" id="packagerate"><input type="hidden" value="'
+                            +v.r_additional_bed+'"><input type="hidden" name="checkIn" value="'
+                            +response.checkIn+'"><input type="hidden" name="checkOut" value="'
+                            +response.checkOut+'"><input type="hidden" name="packagerate" value="" id="packagerate"><input type="hidden" value="'
                             +response.days+'" id="days'
                             +v.r_id+'" name="days"><button type="submit" onClick="addToCart('
                             +v.r_id+')" class="btn btn-warning">Reserve</button></div></div></div></div></form>')

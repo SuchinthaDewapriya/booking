@@ -76,12 +76,12 @@ class SearchController extends Controller
                         $checkRoom = Room::whereNotIn('r_id',$checkBooking)->get();
                     }   
                     $id = 1;
-                    return response()->json(['checkRoom' => $checkRoom, 'id' => $id, 'days' => $days, 'packages' => $packages]);
+                    return response()->json(['checkIn' => $request->checkIn, 'checkOut' => $request->checkOut, 'checkRoom' => $checkRoom, 'id' => $id, 'days' => $days, 'packages' => $packages]);
                 }
             } else {
                 $checkRoom = Room::get();
                 $id = 2;
-                return response()->json(['checkRoom' => $checkRoom, 'id' => $id, 'days' => $days, 'packages' => $packages]);
+                return response()->json(['checkIn' => $request->checkIn, 'checkOut' => $request->checkOut, 'checkRoom' => $checkRoom, 'id' => $id, 'days' => $days, 'packages' => $packages]);
             }
   
         

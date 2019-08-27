@@ -119,6 +119,22 @@
                                                         </label>
                                                         </div>
                                                     </div>
+                                                    <input type="hidden" name="quantity" value="{{quantity}}">
+                                                    <input type="hidden" name="bed[]" value="{{bed}}">
+                                                    <input type="hidden" name="ratebed" value="{{ratebed}}">
+                                                    <input type="hidden" name="fixedrate" value="{{fixedrate}}">
+                                                    <input type="hidden" name="id" value="{{id}}">
+                                                    <input type="hidden" name="image" value="{{image}}">
+                                                    <input type="hidden" name="r_name" value="{{r_name}}">
+                                                    <input type="hidden" name="additionalPackage" value="{{additionalPackage}}">
+                                                    <input type="hidden" name="totalpackageRate" value="{{totalpackageRate}}">
+                                                    <input type="hidden" name="bedtotalrate" value="{{bedtotalrate}}">
+                                                    <input type="hidden" name="totalpackageRate1" value="{{totalpackageRate1}}">
+                                                    <input type="hidden" name="additionalbed" value="{{additionalbed}}">
+                                                    <input type="hidden" name="packagerate" value="{{packagerate}}">
+                                                    <input type="hidden" name="days" value="{{days}}">
+                                                    <input type="hidden" name="checkIn" value="{{checkIn}}">
+                                                    <input type="hidden" name="checkOut" value="{{checkOut}}">
                                                     <div style="padding:15px;">
                                                         <button type="submit"  class="btn btn-primary">Sign in</button>
                                                     </div>    

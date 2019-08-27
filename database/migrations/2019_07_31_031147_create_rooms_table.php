@@ -17,8 +17,9 @@ class CreateRoomsTable extends Migration
             $table->bigIncrements('r_id');
             $table->string('r_name');
             $table->string('r_price');
-            $table->integer('r_quantity');
-            $table->integer('r_additionalBed');
+            $table->integer('r_quantity'); 
+            $table->integer('r_bookquantity');
+            $table->integer('r_additional_bed');
             $table->string('r_image');
             $table->integer('r_status');
             $table->timestamps();
