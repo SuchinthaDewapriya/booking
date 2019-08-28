@@ -16,10 +16,13 @@ class CreateCustomerDetailsTable extends Migration
         Schema::create('customer_details', function (Blueprint $table) {
             $table->bigIncrements('cd_id');
             $table->integer('cd_bookingid');
-            $table->string('cd_name');
+            $table->string('cd_salutation');
+            $table->string('cd_first_name');
+            $table->string('cd_last_name');
             $table->string('cd_email');
             $table->string('cd_phone');
             $table->string('cd_country');
+            $table->string('cd_note');
             $table->string('cd_status');
             $table->timestamps();
         });

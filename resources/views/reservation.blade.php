@@ -399,7 +399,9 @@ function Check() {
             $("#searchLoader").show();
         },
         success: function (response) {
-            $.each(response.checkRoom, function(k,v){
+            console.log(response.checkRoom)
+            if (response.checkRoom.length != 0) {
+                $.each(response.checkRoom, function(k,v){
                 var maxquantity = 0;
                 if (response.id ==  1) {
                     maxquantity = v.r_bookquantity;
@@ -410,7 +412,7 @@ function Check() {
                 let room_id = v.r_id
                 $.each(response.packages, function(k,v){
                      pack += '<div class="col-md-4"><section class="custom-section"><div><input type="radio" class="package" id="control_0'
-                     +v.p_id+'" data-idpackage="'+room_id+'" onchange="radioChange('+v.p_additional_bed+', '+v.p_price+', '+room_id+')"  name="package" value="'
+                     +v.p_name+'" data-idpackage="'+room_id+'" onchange="radioChange('+v.p_additional_bed+', '+v.p_price+', '+room_id+')"  name="package" value="'
                      +v.p_price+'"><label for="control_0'+v.p_id+'" class="custom-label">'+v.p_name+'</label></div></section></div>'
                 })
 
@@ -421,7 +423,7 @@ function Check() {
                     +'<input onchange="roomQuantityChange('+v.r_id+', '+v.r_price+', '+v.r_additional_bed+')" class="form-control roomQuantity roomQuantity2_'
                     +v.r_id+'" name="quantity" placeholder="Quantity" type="number" max="'
                     +maxquantity+'" data-id="'
-                    +v.r_id+'" min="0" id="r_newquantity'
+                    +v.r_id+'" min="1" id="r_newquantity'
                     +v.r_id+'"></div><div class="col-md-4"></div><div class="col-md-4 align-middle"><span class="rates rates_'
                     +v.r_id+'"><small class="small">Room Rates: </small>Rs.00.00/<small class="small">Night</small></span></div><input type="hidden" id="rate" class="totalratebed_'
                     +v.r_id+'" name="ratebed" value="'
@@ -430,17 +432,18 @@ function Check() {
                     +v.r_price+'"><input type="hidden" id="fixedrate_'
                     +v.r_id+'" name="fixedrate" value="'
                     +v.r_price+'"></div><div class="row rates"><div class="packageRate_'
-                    +v.r_id+'"></div></div><div class="row rates"><div class="bedRate"></div></div><br><div class="row"><div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><div id="TotalRate"><small class="totalrate">Total Rates: </small>Rs.00.00/<small class="small">Night</small></div></div></div><br><div class="row"><div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4 mobile-padding"><input type="hidden" name="id" value="'
+                    +v.r_id+'"></div></div><div class="row rates"><div class="bedRate_'+v.r_id+'"></div></div><br><div class="row"><div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><div id="TotalRate"><small class="totalrate">Total Rates: </small>Rs.00.00/<small class="small">Night</small></div></div></div><br><div class="row"><div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4 mobile-padding"><input type="hidden" name="id" value="'
                     +v.r_id+'" ><input type="hidden" value="'
                     +v.r_image+'" id="image'
                     +v.r_id+'" name="image"><input type="hidden" name="r_name" id="r_name'
                     +v.r_id+'" value="'
                     +v.r_name+'" ><input type="hidden" class="additionalPackage_'
-                    +v.r_id+'" value="" name="additionalPackage"><input type="hidden" class="totalpackageRate_'
-                    +v.r_id+'" value=" name="totalpackageRate"><input type="hidden" class="bedtotalrate_'
-                    +v.r_id+'" value="00.00" name="bedtotalrate"><input type="hidden" id="roomid" value="'
-                    +v.r_id+'"><input type="hidden" class="totalpackageRate1_'
-                    +v.r_id+'" name="totalpackageRate1"><input type="hidden" id="additionalbed'
+                    +v.r_id+'" value="" name="additionalPackage"><input type="hidden" id="roomid" value="'
+                    +v.r_id+'"><input type="hidden" class="TotalRoomRate_'
+                    +v.r_id+'" name="TotalRoomRate" value="0"><input type="hidden" class="TotalBedRate_'
+                    +v.r_id+'" name="TotalBedRate" value="0"><input type="hidden" class="TotalPackageRate_'
+                    +v.r_id+'" name="TotalPackageRate" value="0"><input type="hidden" class="FinalTotal_'
+                    +v.r_id+'" name="FinalTotal" value="0"><input type="hidden" id="additionalbed'
                     +v.r_id+'" name="additionalbed" data-roomid="'
                     +v.r_id+'" value="'
                     +v.r_additional_bed+'"><input type="hidden" name="checkIn" value="'
@@ -449,7 +452,11 @@ function Check() {
                     +response.days+'" id="days'
                     +v.r_id+'" name="days"><button type="submit" onClick="addToCart('
                     +v.r_id+')" class="btn btn-warning">Reserve</button></div></div></div></div></form>')
-            })
+                })
+            } else {
+                $('.rooms').append('<h1>Sorry room is not available!</h1>')
+            }
+            
         },
         complete:function(data){
             // Hide image container
@@ -457,15 +464,21 @@ function Check() {
         }
     });
 }
+
 // Room quantity
 function roomQuantityChange(id, price, bedRate){
   roomQty = $('.roomQuantity2_'+id).val()
-  roomRates = roomQty * price
+  var days = $(".rooms #days"+id).val()
+  roomRates = (roomQty * price ) * parseInt(days)
   $('.rates_'+id).html('<small class="small">Room Rates: </small>Rs.'
                         + parseFloat(roomRates)
                         + '/<small class="small">Night</small>')
+  $('.rooms .TotalRoomRate_'+id).attr({"value":roomRates});                   
 
+  $(".rooms .packageRate_"+id).empty()
   $(".rooms .additionalRoom").empty()
+  $(".rooms .bedRate").empty()
+  totalBedRate = 0
   if (roomQty > 1) {
       $(".rooms .additionalRoom").append('<div class="row"><div class="col-md-12"><h3 class="room-name">Additional Bed</h3></div></div><div class="row">')
       for (i = 0; i < roomQty; i++) {
@@ -478,8 +491,9 @@ function roomQuantityChange(id, price, bedRate){
 }
 // Add beds
 function addBeds(id, bedRate, that, room_id){
+  var days = $(".rooms #days"+room_id).val()
   let bedQty = $(that).val()
-  let bedVal = bedQty * bedRate
+  let bedVal = (bedQty * bedRate) * parseInt(days)
   additionalBeds[id] = {
     'value': bedVal,
     'qty': bedQty
@@ -489,34 +503,45 @@ function addBeds(id, bedRate, that, room_id){
   calculateTotal()
 }
 function calBedRate(){
+  let id = $(".rooms #roomid").val()
   let bedTotal = 0
   $.each(additionalBeds, function(k, v){
     bedTotal += v.value
   })
   totalBedRate = bedTotal
-  $(".rooms .bedRate").html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Bed Rates :</small>Rs.'+totalBedRate+'/<small class="small">Night</small></div>');
+  $('.rooms .TotalBedRate_'+id).attr({"value":totalBedRate});   
+  $(".rooms .bedRate_"+id).html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Bed Rates :</small>Rs.'+totalBedRate+'/<small class="small">Night</small></div>');
 
 }
 // Radio button
 function radioChange(additionalBedRate, price, id){
   let totalBeds = 0
   let packageBedRate = 0
-
+  var days = $(".rooms #days"+id).val()
+  console.log(days)
   packageRate['price'] = price
   packageRate['bedRate'] = additionalBedRate
 
   $.each(additionalBeds, function(k,v){
     totalBeds += parseInt(v.qty)
   })
-  packageBedRate = parseInt(totalBeds) * parseInt(additionalBedRate)
-  tempPackageRate = parseInt(price) * roomQty
+  packageBedRate = (parseInt(totalBeds) * parseInt(additionalBedRate)) * parseInt(days)
+  if (roomQty > 0) {
+    tempPackageRate = (parseInt(price) * roomQty) * parseInt(days)
+  } else {
+    tempPackageRate = parseInt(price) * parseInt(days)
+  }
+  
   totalPackageRate = parseInt(packageBedRate) + tempPackageRate
+  $('.rooms .TotalPackageRate_'+id).attr({"value":totalPackageRate})
   $(".rooms .packageRate_"+id).html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Package Rates:</small>Rs.'+totalPackageRate+'/<small class="small">Night</small></div>');
   calculateTotal()
 }
 // Calculate total
 function calculateTotal(){
+    let id = $(".rooms #roomid").val()
   let grandTotal = roomRates + totalBedRate + totalPackageRate
+  $(".rooms .FinalTotal_"+id).attr({"value":grandTotal})
   $(".rooms #TotalRate").html('<small class="totalrate">Total Rates: </small>Rs.'+grandTotal+'/<small class="small">Night</small>')
 }
 </script>

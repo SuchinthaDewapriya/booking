@@ -55,7 +55,7 @@ class SearchController extends Controller
 
             //  }
 
-            $checkBooking = Booking::where('b_checkoutdate', '>=' ,$request->checkIn)
+            $checkBooking = Booking::latest('b_checkoutdate')->where('b_checkoutdate', '>=' ,$request->checkIn)
             ->pluck('b_rid');
             
             $checkOutDate = Carbon::parse($request->checkOut);
@@ -69,7 +69,7 @@ class SearchController extends Controller
             if ( count($checkBooking) > 0 ) {
                 $room = Room::where('r_id',$checkBooking)->get();
                 foreach ($room as $rooms) {
-                    if ($rooms->r_quantity != 0) {
+                    if ($rooms->r_bookquantity != 0) {
                         $checkRoom = Room::get();
                     } 
                     else{

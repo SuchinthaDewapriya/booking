@@ -22,6 +22,7 @@ Route::get('reservation', 'SearchController@reservation');
 
 //Booking Routes
 Route::post('confirm-order', 'BookingController@ConfirmOrder');
+Route::post('storeData', 'BookingController@BookingTable'); 
 
 //Admin Route
 Route::get('admin', 'AdminController@Index');
