@@ -41,3 +41,5 @@ Route::get('delete-all-packages', 'AdminController@DeleteAllPackages');
 Route::get('package-delete/{id}', 'AdminController@PackageDelete'); 
 Route::get('edit-package/{id}', 'AdminController@PackageEdit'); 
 Route::post('update-package', 'AdminController@PackageUpdate'); 
+
+Route::get('view-reservation/{id}', 'AdminController@ViewReservation'); 

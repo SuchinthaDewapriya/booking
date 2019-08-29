@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Room;
 
-use App\AdditionalPackage;
+use App\BookingDetail;
+
+use App\BookingRate;
+
+use App\Booking;
+
 
 class AdminController extends Controller
 {
@@ -21,7 +26,10 @@ class AdminController extends Controller
     }
     public function Reservations()
     {
-        return view('admin.reservations');
+        $Booking = Booking::join('booking_rates', 'bookings.b_id', '=', 'booking_rates.br_bookingid')
+        ->join('rooms', 'bookings.b_rid', '=', 'rooms.r_id')
+        ->get();
+        return view('admin.reservations')->with('Booking',$Booking);
     }
     public function Rooms()
     {
@@ -135,5 +143,30 @@ class AdminController extends Controller
         ]);
         $getPackage = AdditionalPackage::get();
         return response()->json(['getPackage'=>$getPackage]);
+    }
+    //Reservaion page
+
+    public function ViewReservation($id)
+    {
+        
+        $BookingDetailsCheck = BookingDetail::get();
+        
+        if ($BookingDetailsCheck == null) {
+            $ViewReservation = Booking::with('bookingdetails', 'bookingrate')->where('b_id',$id)->first();
+
+            // $ViewReservation = Booking::join('booking_rates', 'bookings.b_id', '=', 'booking_rates.br_bookingid')
+            // ->join('booking_details', 'bookings.b_id', '=', 'booking_details.bd_booking_id')
+            // ->join('customer_details', 'bookings.b_id', '=', 'customer_details.cd_bookingid')
+            // ->join('rooms', 'bookings.b_rid', '=', 'rooms.r_id')
+            // ->where('b_id',$id)
+            // ->first();
+        } else {
+            $ViewReservation = Booking::join('booking_rates', 'bookings.b_id', '=', 'booking_rates.br_bookingid')
+            ->join('rooms', 'bookings.b_rid', '=', 'rooms.r_id')
+            ->join('customer_details', 'bookings.b_id', '=', 'customer_details.cd_bookingid')
+            ->where('b_id',$id)
+            ->first();
+        }
+        return response()->json(['ViewReservation'=>$ViewReservation]);
     }
 }
