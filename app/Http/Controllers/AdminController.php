@@ -152,7 +152,8 @@ class AdminController extends Controller
         $BookingDetailsCheck = BookingDetail::get();
         
         if ($BookingDetailsCheck == null) {
-            $ViewReservation = Booking::with('bookingdetails', 'bookingrate')->where('b_id',$id)->first();
+            $ViewReservation = Booking::with('bookingdetails', 'bookingrate', 'customerdetails','room')
+            ->where('b_id',$id)->first();
 
             // $ViewReservation = Booking::join('booking_rates', 'bookings.b_id', '=', 'booking_rates.br_bookingid')
             // ->join('booking_details', 'bookings.b_id', '=', 'booking_details.bd_booking_id')
@@ -161,11 +162,13 @@ class AdminController extends Controller
             // ->where('b_id',$id)
             // ->first();
         } else {
-            $ViewReservation = Booking::join('booking_rates', 'bookings.b_id', '=', 'booking_rates.br_bookingid')
-            ->join('rooms', 'bookings.b_rid', '=', 'rooms.r_id')
-            ->join('customer_details', 'bookings.b_id', '=', 'customer_details.cd_bookingid')
-            ->where('b_id',$id)
-            ->first();
+            $ViewReservation = Booking::with('bookingrate', 'customerdetails','room')
+            ->where('b_id',$id)->first();
+            // $ViewReservation = Booking::join('booking_rates', 'bookings.b_id', '=', 'booking_rates.br_bookingid')
+            // ->join('rooms', 'bookings.b_rid', '=', 'rooms.r_id')
+            // ->join('customer_details', 'bookings.b_id', '=', 'customer_details.cd_bookingid')
+            // ->where('b_id',$id)
+            // ->first();
         }
         return response()->json(['ViewReservation'=>$ViewReservation]);
     }

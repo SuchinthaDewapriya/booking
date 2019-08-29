@@ -70,13 +70,15 @@
                 // $('#UpdateroomName').val(response.r_name)
                 // $('#UpdateroomRate').val(response.r_price)
                 // $('#UpdateroomQuantity').val(response.r_quantity)
-                let Name = response.cd_salutation +' '+response.cd_first_name +' '+ response.cd_last_name
+                let Name = response.ViewReservation.customerdetails.cd_salutation +' '+response.ViewReservation.customerdetails.cd_first_name +' '+ response.ViewReservation.customerdetails.cd_last_name
                 $('#CustomerName').append(Name)
-                $('#CustomerEmail').append(response.ViewReservation.cd_email)
-                $('#CustomerContact').append(response.ViewReservation.cd_phone)
-                $('#CustomerCountry').append(response.ViewReservation.cd_country)
-                $('#CustomerNote').append(response.ViewReservation.cd_note)
+                $('#CustomerEmail').append(response.ViewReservation.customerdetails.cd_email)
+                $('#CustomerContact').append(response.ViewReservation.customerdetails.cd_phone)
+                $('#CustomerCountry').append(response.ViewReservation.customerdetails.cd_country)
+                $('#CustomerNote').append(response.ViewReservation.customerdetails.cd_note)
 
+                $('#RoomName').append(response.ViewReservation.room.r_name)
+                
                 $('.bd-viewReservation-modal-lg').modal('show')
             }
         });

@@ -68,10 +68,10 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
-                            <h6>Customer Note:</h6>
+                            <h6>Room name:</h6>
                         </div>
                         <div class="col-md-7">
-                            <h6><div id="CustomerNote"></div></h6>
+                            <h6><div id="RoomName"></div></h6>
                         </div>
                     </div>
                 </div>
