@@ -412,7 +412,7 @@ function Check() {
                 let room_id = v.r_id
                 $.each(response.packages, function(k,v){
                      pack += '<div class="col-md-4"><section class="custom-section"><div><input type="radio" class="package" id="control_0'
-                     +v.p_name+'" data-idpackage="'+room_id+'" onchange="radioChange('+v.p_additional_bed+', '+v.p_price+', '+room_id+')"  name="package" value="'
+                     +v.p_id+'" data-idpackage="'+room_id+'" onchange="radioChange('+v.p_additional_bed+', '+v.p_price+', '+room_id+')"  name="package" value="'
                      +v.p_price+'"><label for="control_0'+v.p_id+'" class="custom-label">'+v.p_name+'</label></div></section></div>'
                 })
 
