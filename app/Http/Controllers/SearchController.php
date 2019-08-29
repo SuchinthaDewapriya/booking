@@ -54,10 +54,18 @@ class SearchController extends Controller
             //     $checkRoom = Room::get();
 
             //  }
+            $BookingQty = Booking::where('b_status',0)->where('b_checkoutdate', '>=' ,$request->checkIn)
+            ->where('b_checkindate', '<=' ,$request->checkOut)
+            ->pluck('b_rquantity');
 
-            $checkBooking = Booking::latest('b_checkoutdate')->where('b_checkoutdate', '>=' ,$request->checkIn)
+            $checkBookingId = Booking::where('b_status',0)->where('b_checkoutdate', '>=' ,$request->checkIn)
+            ->where('b_checkindate', '<=' ,$request->checkOut)
             ->pluck('b_rid');
+
             
+
+            // $DifferenceQty =  number_format($roomQty) - number_format($BookingQty);
+
             $checkOutDate = Carbon::parse($request->checkOut);
             $checkInDate = Carbon::parse($request->checkIn);
 
@@ -66,23 +74,55 @@ class SearchController extends Controller
             $days = $checkOutDate->diffInDays($checkInDate);
 
             $id = 0;
-            if ( count($checkBooking) > 0 ) {
-                $room = Room::where('r_id',$checkBooking)->get();
+            if ( count($checkBookingId) > 0 ) {
+                $room = Room::where('r_id',$checkBookingId)->get();
+                $roomQty = Room::where('r_id',$checkBookingId)->pluck('r_quantity');
                 foreach ($room as $rooms) {
-                    if ($rooms->r_bookquantity != 0) {
+                    if ($rooms->r_quantity != 0) {
                         $checkRoom = Room::get();
                     } 
                     else{
-                        $checkRoom = Room::whereNotIn('r_id',$checkBooking)->get();
+                        $checkRoom = Room::whereNotIn('r_id',$checkBookingId)->get();
                     }   
                     $id = 1;
-                    return response()->json(['checkIn' => $request->checkIn, 'checkOut' => $request->checkOut, 'checkRoom' => $checkRoom, 'id' => $id, 'days' => $days, 'packages' => $packages]);
+                    return response()->json(['BookingQty' => $BookingQty, 'roomQty' => $roomQty, 'checkIn' => $request->checkIn, 'checkOut' => $request->checkOut, 'checkRoom' => $checkRoom, 'id' => $id, 'days' => $days, 'packages' => $packages]);
                 }
             } else {
                 $checkRoom = Room::get();
                 $id = 2;
                 return response()->json(['checkIn' => $request->checkIn, 'checkOut' => $request->checkOut, 'checkRoom' => $checkRoom, 'id' => $id, 'days' => $days, 'packages' => $packages]);
             }
+
+            //..............................................
+
+            // $checkBooking = Booking::where('b_status',1)->where('b_checkoutdate', '>=' ,$request->checkIn)
+            // ->pluck('b_rid');
+            
+            // $checkOutDate = Carbon::parse($request->checkOut);
+            // $checkInDate = Carbon::parse($request->checkIn);
+
+            // $packages = AdditionalPackage::get();
+
+            // $days = $checkOutDate->diffInDays($checkInDate);
+
+            // $id = 0;
+            // if ( count($checkBooking) > 0 ) {
+            //     $room = Room::where('r_id',$checkBooking)->get();
+            //     foreach ($room as $rooms) {
+            //         if ($rooms->r_bookquantity != 0) {
+            //             $checkRoom = Room::get();
+            //         } 
+            //         else{
+            //             $checkRoom = Room::whereNotIn('r_id',$checkBooking)->get();
+            //         }   
+            //         $id = 1;
+            //         return response()->json(['checkIn' => $request->checkIn, 'checkOut' => $request->checkOut, 'checkRoom' => $checkRoom, 'id' => $id, 'days' => $days, 'packages' => $packages]);
+            //     }
+            // } else {
+            //     $checkRoom = Room::get();
+            //     $id = 2;
+            //     return response()->json(['checkIn' => $request->checkIn, 'checkOut' => $request->checkOut, 'checkRoom' => $checkRoom, 'id' => $id, 'days' => $days, 'packages' => $packages]);
+            // }
   
         
     }

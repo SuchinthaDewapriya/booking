@@ -129,6 +129,10 @@
                                                         <input type="hidden" name="bed[]" value="{{$item}}">
                                                     @endforeach
                                                     {{-- <input type="hidden" name="bed[]" value="{{$bed}}"> --}}
+                                                    @foreach ($setting as $item)
+                                                        <input type="hidden" name="OwnerMail" value="{{$item->s_mail}}">
+                                                    @endforeach
+                                                    
                                                     <input type="hidden" name="package" value="{{$package}}">
                                                     <input type="hidden" name="ratebed" value="{{$ratebed}}">
                                                     <input type="hidden" name="fixedrate" value="{{$fixedrate}}">

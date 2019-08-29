@@ -401,10 +401,13 @@ function Check() {
         success: function (response) {
             console.log(response.checkRoom)
             if (response.checkRoom.length != 0) {
-                $.each(response.checkRoom, function(k,v){
+                if ((parseInt(response.roomQty) - parseInt(response.BookingQty)) != 0) {
+                    $.each(response.checkRoom, function(k,v){
                 var maxquantity = 0;
                 if (response.id ==  1) {
-                    maxquantity = v.r_bookquantity;
+                    console.log(response.roomQty)
+                    console.log(response.BookingQty)
+                    maxquantity = parseInt(response.roomQty) - parseInt(response.BookingQty);
                 } else {
                     maxquantity = v.r_quantity;
                 }
@@ -453,6 +456,9 @@ function Check() {
                     +v.r_id+'" name="days"><button type="submit" onClick="addToCart('
                     +v.r_id+')" class="btn btn-warning">Reserve</button></div></div></div></div></form>')
                 })
+                } else {
+                    $('.rooms').append('<h1>Sorry room is not available!</h1>')
+                }
             } else {
                 $('.rooms').append('<h1>Sorry room is not available!</h1>')
             }

@@ -14,11 +14,17 @@ use App\Room;
 
 use App\CustomerDetail;
 
+use App\Setting;
+
+use Mail;
+
 class BookingController extends Controller
 {
     public function ConfirmOrder(Request $req)
     {
+        $setting = Setting::get();
        return view('checkout')
+       ->with('setting',$setting )
        ->with('package', $req->package)
        ->with('quantity', $req->quantity)
        ->with('bed', $req->bed)
@@ -59,10 +65,10 @@ class BookingController extends Controller
         $checkIn = $req->checkIn;
         $checkOut = $req->checkOut;
 
+        $OWNER_MAIL = $req->OwnerMail;
         $CUSTOMER_NAME = $req->salutation.' '.$req->fname.' '.$req->lname;
         $CUSTOMER_EMAIL = $req->email;
 
-        $RoomBookQty = Room::where('r_id',$id)->decrement('r_bookquantity', $quantity);
 
         $BookingTable = Booking::insertGetId([
             'b_rid' => $req->id,
@@ -89,54 +95,70 @@ class BookingController extends Controller
         return $this->BookingDetailsTable($quantity,$bed,$ratebed,
         $fixedrate,$id,$image,$r_name,$additionalPackage,$TotalRoomRate,
         $TotalBedRate,$TotalPackageRate,$FinalTotal,$additionalbed,
-        $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL);
+        $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL);
     }
     public function BookingDetailsTable($quantity,$bed,$ratebed,
     $fixedrate,$id,$image,$r_name,$additionalPackage,$TotalRoomRate,
     $TotalBedRate,$TotalPackageRate,$FinalTotal,$additionalbed,
-    $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL)
+    $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL)
     {
-        $bedFiled = array();
-        $bedFiled = $bed;
-        $dataSet = [];
+       
 
-        foreach ($bedFiled as $value) {
-            $dataSet[] = [
-                'bd_booking_id' => $BookingTable,
-                'bd_additionalbed_quantity' => $value,
-                'bd_status' => 1
-            ];
+        if ($bed == '') {
+            $bedFiled = array();
+            $bedFiled = $bed;
+            $dataSet = [];
+
+            foreach ($bedFiled as $value) {
+                $dataSet[] = [
+                    'bd_booking_id' => $BookingTable,
+                    'bd_additionalbed_quantity' => $value,
+                    'bd_status' => 1
+                ];
+            }
+            BookingDetail::insert($dataSet);
         }
-        BookingDetail::insert($dataSet);
+        
+       
 
         return $this->BookingRatesTable($quantity,$bed,$ratebed,
         $fixedrate,$id,$image,$r_name,$additionalPackage,$TotalRoomRate,
         $TotalBedRate,$TotalPackageRate,$FinalTotal,$additionalbed,
-        $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL);
+        $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL);
     }
     public function BookingRatesTable($quantity,$bed,$ratebed,
     $fixedrate,$id,$image,$r_name,$additionalPackage,$TotalRoomRate,
     $TotalBedRate,$TotalPackageRate,$FinalTotal,$additionalbed,
-    $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL)
+    $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL)
     {
         BookingRate::insert([
             'br_bookingid' => $BookingTable,
             'br_roomRate' => $TotalRoomRate,
             'br_packageRate' => $TotalPackageRate,
             'br_bedmRate' => $TotalBedRate,
-            'br_totalRate' => $FinalTotal
+            'br_totalRate' => $FinalTotal,
         ]);
         return $this->email($quantity,$bed,$ratebed,
         $fixedrate,$id,$image,$r_name,$additionalPackage,$TotalRoomRate,
         $TotalBedRate,$TotalPackageRate,$FinalTotal,$additionalbed,
-        $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL);
+        $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL);
     }
     public function email($quantity,$bed,$ratebed,
     $fixedrate,$id,$image,$r_name,$additionalPackage,$TotalRoomRate,
     $TotalBedRate,$TotalPackageRate,$FinalTotal,$additionalbed,
-    $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL)
+    $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL)
     {
-        
+        $data = [
+            'mail' => $CUSTOMER_EMAIL,
+            'name' => $CUSTOMER_NAME,
+            'owner_mail' => $OWNER_MAIL
+        ];
+
+        $mail = Mail::send('mails.BookingMail', $data, function($message) use($data) {
+            $message->to($data['mail'],$data['owner_mail'])->subject('Test Mail');
+        });
+
+        return $mail;
     }
     
 }
