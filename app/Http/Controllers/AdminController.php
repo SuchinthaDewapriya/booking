@@ -12,6 +12,7 @@ use App\BookingRate;
 
 use App\Booking;
 
+use App\AdditionalPackage;
 
 class AdminController extends Controller
 {
@@ -146,30 +147,52 @@ class AdminController extends Controller
     }
     //Reservaion page
 
-    public function ViewReservation($id)
+    public function ViewReservation($id,$package)
     {
+
+        if ($package == 0) {
+            $packageCheck = 0;
+        } else {
+            $packageCheck = AdditionalPackage::where('p_price',$package)->pluck('p_name');
+        }
+        
+       
         
         $BookingDetailsCheck = BookingDetail::get();
         
-        if ($BookingDetailsCheck == null) {
+        if ($BookingDetailsCheck != null) {
             $ViewReservation = Booking::with('bookingdetails', 'bookingrate', 'customerdetails','room')
             ->where('b_id',$id)->first();
+            
 
-            // $ViewReservation = Booking::join('booking_rates', 'bookings.b_id', '=', 'booking_rates.br_bookingid')
-            // ->join('booking_details', 'bookings.b_id', '=', 'booking_details.bd_booking_id')
-            // ->join('customer_details', 'bookings.b_id', '=', 'customer_details.cd_bookingid')
-            // ->join('rooms', 'bookings.b_rid', '=', 'rooms.r_id')
-            // ->where('b_id',$id)
-            // ->first();
+            $getBed = BookingDetail::where('bd_booking_id', $id)->get();
+
+                $BedTotalQty = 0;
+            foreach ($getBed as $value) {
+                $BedTotalQty = $BedTotalQty + $value->bd_additionalbed_quantity; 
+            }
+            return response()->json(['ViewReservation'=>$ViewReservation, 'packageCheck'=>$packageCheck, 'BedTotalQty'=>$BedTotalQty]);
         } else {
             $ViewReservation = Booking::with('bookingrate', 'customerdetails','room')
-            ->where('b_id',$id)->first();
-            // $ViewReservation = Booking::join('booking_rates', 'bookings.b_id', '=', 'booking_rates.br_bookingid')
-            // ->join('rooms', 'bookings.b_rid', '=', 'rooms.r_id')
-            // ->join('customer_details', 'bookings.b_id', '=', 'customer_details.cd_bookingid')
-            // ->where('b_id',$id)
-            // ->first();
+            ->where('b_id',$id)->get();
+            $BedTotalQty = 0;
+            return response()->json(['ViewReservation'=>$ViewReservation, 'packageCheck'=>$packageCheck, 'BedTotalQty'=>$BedTotalQty]);
         }
-        return response()->json(['ViewReservation'=>$ViewReservation]);
+    }
+    public function ConfirmBook($b_id)
+    {
+        Booking::where('b_id', $b_id)->update([
+            'b_status' => 1
+        ]);
+
+        return redirect()->back();
+    }
+    public function live($b_id)
+    {
+        Booking::where('b_id', $b_id)->update([
+            'b_status' => 2
+        ]);
+
+        return redirect()->back();
     }
 }

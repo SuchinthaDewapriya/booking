@@ -54,16 +54,14 @@ class SearchController extends Controller
             //     $checkRoom = Room::get();
 
             //  }
-            $BookingQty = Booking::where('b_status',0)->where('b_checkoutdate', '>=' ,$request->checkIn)
-            ->where('b_checkindate', '<=' ,$request->checkOut)
-            ->pluck('b_rquantity');
+            
 
             $checkBookingId = Booking::where('b_status',0)->where('b_checkoutdate', '>=' ,$request->checkIn)
             ->where('b_checkindate', '<=' ,$request->checkOut)
             ->pluck('b_rid');
 
             
-
+            // dd($checkBookingId);
             // $DifferenceQty =  number_format($roomQty) - number_format($BookingQty);
 
             $checkOutDate = Carbon::parse($request->checkOut);
@@ -74,7 +72,10 @@ class SearchController extends Controller
             $days = $checkOutDate->diffInDays($checkInDate);
 
             $id = 0;
-            if ( count($checkBookingId) > 0 ) {
+            if ( count($checkBookingId) == 0 ) {
+                $BookingQty = Booking::where('b_status',0)->where('b_checkoutdate', '>=' ,$request->checkIn)
+            ->where('b_checkindate', '<=' ,$request->checkOut)
+            ->pluck('b_rquantity');
                 $room = Room::where('r_id',$checkBookingId)->get();
                 $roomQty = Room::where('r_id',$checkBookingId)->pluck('r_quantity');
                 foreach ($room as $rooms) {

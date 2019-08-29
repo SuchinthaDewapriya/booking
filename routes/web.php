@@ -42,4 +42,6 @@ Route::get('package-delete/{id}', 'AdminController@PackageDelete');
 Route::get('edit-package/{id}', 'AdminController@PackageEdit'); 
 Route::post('update-package', 'AdminController@PackageUpdate'); 
 
-Route::get('view-reservation/{id}', 'AdminController@ViewReservation'); 
+Route::get('view-reservation/{id}/{package}', 'AdminController@ViewReservation');  
+Route::get('confirm-book/{b_id}', 'AdminController@ConfirmBook');
+Route::get('live/{b_id}', 'AdminController@Live');

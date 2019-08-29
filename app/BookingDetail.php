@@ -8,6 +8,6 @@ class BookingDetail extends Model
 {
     public function booking()
     {
-        return $this->belongsTo('App\Booking', 'b_id',);
+        return $this->belongsTo('App\Booking', 'b_id');
     }
 }

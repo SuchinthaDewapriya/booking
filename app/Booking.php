@@ -12,7 +12,7 @@ class Booking extends Model
     }
     public function bookingrate()
     {
-        return $this->hasMany('App\BookingRate', 'br_bookingid', 'b_id');
+        return $this->hasOne('App\BookingRate', 'br_bookingid', 'b_id');
     }
     public function customerdetails()
     {

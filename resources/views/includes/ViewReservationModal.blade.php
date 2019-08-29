@@ -10,69 +10,54 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <h6><b>Customer Details</b></h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p><b>Booking No:</b> <span id="CustomerId"></span> </P>  
+                                </div>
+                                <div class="col-md-4">
+                                    <p><b>Arrival Date:</b> <span id="ArrivalDate"></span> </P>
+                                </div>
+                                <div class="col-md-4">
+                                    <p><b>Departure Date:</b> <span id="DepartureDate"></span> </P>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-3">
-                            <h6>Customer Name:</h6>
-                        </div>
-                        <div class="col-md-7">
-                            <h6><div id="CustomerName"></div></h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-3">
-                            <h6>Customer Email:</h6>
-                        </div>
-                        <div class="col-md-7">
-                            <h6><div id="CustomerEmail"></div></h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-3">
-                            <h6>Customer Contact:</h6>
-                        </div>
-                        <div class="col-md-7">
-                            <h6><div id="CustomerContact"></div></h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-3">
-                            <h6>Customer Country:</h6>
-                        </div>
-                        <div class="col-md-7">
-                            <h6><div id="CustomerCountry"></div></h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-3">
-                            <h6>Customer Note:</h6>
-                        </div>
-                        <div class="col-md-7">
-                            <h6><div id="CustomerNote"></div></h6>
-                        </div>
-                    </div>
-                    <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <h6><b>Room Details</b></h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p><b>Billed to:</b> 
+                                        <br><span id="CustomerName"></span>,
+                                        <br><span id="CustomerCountry"></span>.
+                                        <br><span id="CustomerEmail"></span>
+                                        <br><span id="CustomerContact"></span>
+                                    </p>  
+                                </div>
+                                <div class="col-md-4">
+                                    <p><b>Customer Note:</b> 
+                                        <br><span id="CustomerNote"></span> 
+                                    </P>
+                                </div>
+                            </div>
                         </div>
                     </div>
+  
                     <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-3">
-                            <h6>Room name:</h6>
-                        </div>
-                        <div class="col-md-7">
-                            <h6><div id="RoomName"></div></h6>
-                        </div>
+                        <div class="table-responsive">
+                        <table class="table table-light">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width:70%">Description</th>
+                                    <th style="width:15%">Qty</th>
+                                    <th style="width:15%">Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody class="Bill">
+
+                            </tbody>
+                        </table>
+                    </div>
                     </div>
                 </div>
             </div>

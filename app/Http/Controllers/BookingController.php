@@ -23,8 +23,9 @@ class BookingController extends Controller
     public function ConfirmOrder(Request $req)
     {
         $setting = Setting::get();
+
        return view('checkout')
-       ->with('setting',$setting )
+       ->with('setting',$setting)
        ->with('package', $req->package)
        ->with('quantity', $req->quantity)
        ->with('bed', $req->bed)
