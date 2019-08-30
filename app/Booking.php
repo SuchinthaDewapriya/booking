@@ -22,4 +22,8 @@ class Booking extends Model
     {
         return $this->hasOne('App\Room', 'r_id', 'b_rid');
     }
+    public function bill()
+    {
+        return $this->hasMany('App\Bill', 'bill_booking_id', 'b_id');
+    }
 }

@@ -149,7 +149,7 @@
                                                     <input type="hidden" name="checkIn" value="{{$checkIn}}">
                                                     <input type="hidden" name="checkOut" value="{{$checkOut}}">
                                                     <div style="padding:15px;">
-                                                        <button type="button" onclick="BookNow()" class="btn btn-primary">Sign in</button>
+                                                        <button type="button" onclick="BookNow()" class="btn btn-primary">Reserve Now <img width="20px" src='{{ asset('public/images/reserveLoader.gif') }}' id="bookingLoader" style='display: none;'></button>
                                                     </div>    
                                                 </form>
                                             </div>
@@ -173,9 +173,17 @@
             type: "POST",
             url: "{{ url('storeData')}}",
             data: BookNow,
+            beforeSend: function(){
+            // Show image container
+            $("#bookingLoader").show();
+            },
             success: function (response) {
                 $('.animate-box').empty()
                 swal('Reserved!','Your room reserved.','success')
+            },
+            complete:function(data){
+            // Hide image container
+            $("#bookingLoader").hide();
             }
         });
     }

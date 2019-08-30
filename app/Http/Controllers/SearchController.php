@@ -56,7 +56,7 @@ class SearchController extends Controller
             //  }
             
 
-            $checkBookingId = Booking::where('b_status',0)->where('b_checkoutdate', '>=' ,$request->checkIn)
+            $checkBookingId = Booking::where('b_checkoutdate', '>=' ,$request->checkIn)
             ->where('b_checkindate', '<=' ,$request->checkOut)
             ->pluck('b_rid');
 
@@ -72,8 +72,8 @@ class SearchController extends Controller
             $days = $checkOutDate->diffInDays($checkInDate);
 
             $id = 0;
-            if ( count($checkBookingId) == 0 ) {
-                $BookingQty = Booking::where('b_status',0)->where('b_checkoutdate', '>=' ,$request->checkIn)
+            if ( count($checkBookingId) > 0 ) {
+                $BookingQty = Booking::where('b_checkoutdate', '>=' ,$request->checkIn)
             ->where('b_checkindate', '<=' ,$request->checkOut)
             ->pluck('b_rquantity');
                 $room = Room::where('r_id',$checkBookingId)->get();

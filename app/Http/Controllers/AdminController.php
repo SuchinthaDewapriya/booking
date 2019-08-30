@@ -14,6 +14,12 @@ use App\Booking;
 
 use App\AdditionalPackage;
 
+use App\Bill;
+
+use App\CustomerDetail;
+
+use Mail;
+
 class AdminController extends Controller
 {
     public function __construct()
@@ -29,7 +35,12 @@ class AdminController extends Controller
     {
         $Booking = Booking::join('booking_rates', 'bookings.b_id', '=', 'booking_rates.br_bookingid')
         ->join('rooms', 'bookings.b_rid', '=', 'rooms.r_id')
+        ->orderBy('b_id', 'desc')
         ->get();
+
+        // $Booking = Booking::with('bookingrate','room')->orderBy('b_id', 'desc')
+        // ->get();
+        // dd($Booking);
         return view('admin.reservations')->with('Booking',$Booking);
     }
     public function Rooms()
@@ -155,13 +166,13 @@ class AdminController extends Controller
         } else {
             $packageCheck = AdditionalPackage::where('p_price',$package)->pluck('p_name');
         }
-        
+         
        
         
         $BookingDetailsCheck = BookingDetail::get();
         
         if ($BookingDetailsCheck != null) {
-            $ViewReservation = Booking::with('bookingdetails', 'bookingrate', 'customerdetails','room')
+            $ViewReservation = Booking::with('bookingdetails','bookingrate','customerdetails','room','bill')
             ->where('b_id',$id)->first();
             
 
@@ -173,7 +184,7 @@ class AdminController extends Controller
             }
             return response()->json(['ViewReservation'=>$ViewReservation, 'packageCheck'=>$packageCheck, 'BedTotalQty'=>$BedTotalQty]);
         } else {
-            $ViewReservation = Booking::with('bookingrate', 'customerdetails','room')
+            $ViewReservation = Booking::with('bookingrate', 'customerdetails','room','bill')
             ->where('b_id',$id)->get();
             $BedTotalQty = 0;
             return response()->json(['ViewReservation'=>$ViewReservation, 'packageCheck'=>$packageCheck, 'BedTotalQty'=>$BedTotalQty]);
@@ -181,6 +192,23 @@ class AdminController extends Controller
     }
     public function ConfirmBook($b_id)
     {
+        $customer = CustomerDetail::where('cd_bookingid', $b_id)->get();
+        
+        foreach ($customer as $value) {
+            $mail = $value->cd_email;
+            $name = $value->cd_salutation.' '.$value->cd_first_name.' '.$value->cd_last_name;
+        }
+
+        $data = [
+            'name' => $name,
+            'bookingId' => $b_id
+        ];
+        $emails = [$mail];
+
+        $mail = Mail::send('mails.BookingConfirmMail', $data, function($message) use($emails) {
+            $message->to($emails)->subject('Owner Mail');
+        });
+
         Booking::where('b_id', $b_id)->update([
             'b_status' => 1
         ]);
@@ -191,6 +219,73 @@ class AdminController extends Controller
     {
         Booking::where('b_id', $b_id)->update([
             'b_status' => 2
+        ]);
+
+        return redirect()->back();
+    }
+    public function Orders(Request $req)
+    {
+        Bill::insert([
+            'bill_booking_id' => $req->OrderBookingId,
+            'bill_pro_qty' => $req->proQty,
+            'bill_pro_name' => $req->proName,
+            'bill_pro_price' => $req->proPrice,
+            'bill_status' => 1
+        ]);
+
+        return response()->json();
+    }
+    public function Print(Request $req)
+    {
+        Booking::where('b_id', $req->BillBookingId)->update([
+            'b_payment_method' => $req->paymentMethod
+        ]);
+
+        $billDetails = Bill::where('bill_booking_id', $req->BillBookingId)->get();
+            
+        $paymentMethod = $req->paymentMethod;
+        $BillName = $req->BillName;
+        $BillBookingId = $req->BillBookingId;
+        $BillArrivalDate = $req->BillArrivalDate;
+        $BillDepartureDate = $req->BillDepartureDate;
+        $BillCustomerEmail = $req->BillCustomerEmail;
+        $BillCustomerContact = $req->BillCustomerContact;
+        $BillCustomerCountry = $req->BillCustomerCountry;
+        $BillCustomerNote = $req->BillCustomerNote;
+        $BillRoomName = $req->BillRoomName;
+        $BillRoomQty = $req->BillRoomQty;
+        $BillRoomRate = $req->BillRoomRate;
+        $BillPackageName = $req->BillPackageName;
+        $BillPackageRate = $req->BillPackageRate; 
+        $BillBedQty = $req->BillBedQty;
+        $BillBedRate = $req->BillBedRate;
+        $OrdersProName = $req->OrdersProName;
+        $OrdersProQty = $req->OrdersProQty;
+        $OrdersProPrice = $req->OrdersProPrice;
+        $OrdersGrandTotal = $req->OrdersGrandTotal;
+
+        return view('admin.print')->with('paymentMethod',$paymentMethod)->with('BillName',$BillName)
+        ->with('BillBookingId',$BillBookingId)->with('BillArrivalDate',$BillArrivalDate)->with('BillDepartureDate',$BillDepartureDate)
+        ->with('BillCustomerEmail',$BillCustomerEmail)->with('BillCustomerContact',$BillCustomerContact)
+        ->with('BillCustomerCountry',$BillCustomerCountry)->with('BillCustomerNote',$BillCustomerNote)->with('BillRoomName',$BillRoomName)
+        ->with('BillRoomQty',$BillRoomQty)->with('BillRoomRate',$BillRoomRate)->with('BillPackageName',$BillPackageName)
+        ->with('BillPackageRate',$BillPackageRate)->with('BillBedQty',$BillBedQty)->with('BillBedRate',$BillBedRate)->with('OrdersProName',$OrdersProName)
+        ->with('OrdersProQty',$OrdersProQty)->with('OrdersProPrice',$OrdersProPrice)->with('OrdersGrandTotal',$OrdersGrandTotal)
+        ->with('billDetails',$billDetails);
+    }
+    public function DeleteReservation($id)
+    {
+       Booking::where('b_id',$id)->delete(); 
+       BookingDetail::where('bd_booking_id',$id)->delete();
+       BookingRate::where('br_bookingid',$id)->delete();
+       Bill::where('bill_booking_id',$id)->delete();
+
+       return response()->json();
+    }
+    public function BookingComplete($b_id)
+    {
+        Booking::where('b_id', $b_id)->update([
+            'b_status' => 3
         ]);
 
         return redirect()->back();

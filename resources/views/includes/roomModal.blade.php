@@ -71,7 +71,7 @@
                             <label>Room image</label>
                             <input type="file" name="roomImage" id="UpdateroomImage" class="form-control inputclear">
                         </div>
-                            <input type="hidden" name="updateRoomId" id="updateRoomId">
+                            <input type="hidden" name="updateRoomId" id="updateRoomId" class="form-control inputclear">
                         <button type="submit" name="submit" onclick="Updateroom()" class="btn btn-success">Update</button>
                     </form>
                 </div>

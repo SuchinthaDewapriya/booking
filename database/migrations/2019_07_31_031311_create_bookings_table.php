@@ -20,6 +20,7 @@ class CreateBookingsTable extends Migration
             $table->string('b_checkoutdate');
             $table->integer('b_rquantity');
             $table->string('b_package');
+            $table->string('b_payment_method')->nullable();
             $table->integer('b_status');
             $table->timestamps();
         });

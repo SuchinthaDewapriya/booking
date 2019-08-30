@@ -415,8 +415,8 @@ function Check() {
                 let room_id = v.r_id
                 $.each(response.packages, function(k,v){
                      pack += '<div class="col-md-4"><section class="custom-section"><div><input type="radio" class="package" id="control_0'
-                     +v.p_id+'" data-idpackage="'+room_id+'" onchange="radioChange('+v.p_additional_bed+', '+v.p_price+', '+room_id+')"  name="package" value="'
-                     +v.p_price+'"><label for="control_0'+v.p_id+'" class="custom-label">'+v.p_name+'</label></div></section></div>'
+                     +v.p_id+room_id+'" data-idpackage="'+room_id+'" onchange="radioChange('+v.p_additional_bed+', '+v.p_price+', '+room_id+')"  name="package" value="'
+                     +v.p_price+'"><label for="control_0'+v.p_id+room_id+'" class="custom-label">'+v.p_name+'</label></div></section></div>'
                 })
 
                 $('.rooms').append('<form id="CartForm" method="POST" action="{{ url('confirm-order')}}">@csrf<div class="card reservation-card"><div class="card-body"><div class="card reservation-card1"><div class="card-body"><div class="row"><div class="col-md-5"><img src="{{ asset('public/images/rooms')}}/'
@@ -485,7 +485,7 @@ function roomQuantityChange(id, price, bedRate){
   $(".rooms .additionalRoom"+id).empty()
   $(".rooms .bedRate").empty()
   totalBedRate = 0
-  if (roomQty > 1) {
+  if (roomQty > 1) { 
       $(".rooms .additionalRoom"+id).append('<div class="row"><div class="col-md-12"><h3 class="room-name">Additional Bed</h3></div></div><div class="row">')
       for (i = 0; i < roomQty; i++) {
           $(".rooms .additionalRoom"+id).append('<div class="col-md-4" style="padding:5px;"><input type="number" class="form-control additionalbedquantity" min="0" name="bed[]" onChange="addBeds('+i+','+bedRate+',this, '+id+')" id="additionalbedquantity'+(i+1)+'" placeholder="Room number '+(i+1)+'"></div>')
@@ -493,7 +493,7 @@ function roomQuantityChange(id, price, bedRate){
       $(".rooms .additionalRoom"+id).append('</div></br></br>')
   }
   radioChange(packageRate['bedRate'], packageRate['price'], id)
-  calculateTotal()
+  calculateTotal(id)
 }
 // Add beds
 function addBeds(id, bedRate, that, room_id){
@@ -504,19 +504,20 @@ function addBeds(id, bedRate, that, room_id){
     'value': bedVal,
     'qty': bedQty
   }
-  calBedRate()
+  calBedRate(room_id)
   radioChange(packageRate['bedRate'], packageRate['price'], room_id)
-  calculateTotal()
+  calculateTotal(room_id)
 }
-function calBedRate(){
+function calBedRate(room_id){
   let id = $(".rooms #roomid").val()
+  console.log(id)
   let bedTotal = 0
   $.each(additionalBeds, function(k, v){
     bedTotal += v.value
   })
   totalBedRate = bedTotal
-  $('.rooms .TotalBedRate_'+id).attr({"value":totalBedRate});   
-  $(".rooms .bedRate_"+id).html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Bed Rates :</small>Rs.'+totalBedRate+'/<small class="small">Night</small></div>');
+  $('.rooms .TotalBedRate_'+room_id).attr({"value":totalBedRate});   
+  $(".rooms .bedRate_"+room_id).html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Bed Rates :</small>Rs.'+totalBedRate+'/<small class="small">Night</small></div>');
 
 }
 // Radio button
@@ -541,11 +542,10 @@ function radioChange(additionalBedRate, price, id){
   totalPackageRate = parseInt(packageBedRate) + tempPackageRate
   $('.rooms .TotalPackageRate_'+id).attr({"value":totalPackageRate})
   $(".rooms .packageRate_"+id).html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Package Rates:</small>Rs.'+totalPackageRate+'/<small class="small">Night</small></div>');
-  calculateTotal()
+  calculateTotal(id)
 }
 // Calculate total
-function calculateTotal(){
-    let id = $(".rooms #roomid").val()
+function calculateTotal(id){
   let grandTotal = roomRates + totalBedRate + totalPackageRate
   $(".rooms .FinalTotal_"+id).attr({"value":grandTotal})
   $(".rooms #TotalRate_"+id).html('<small class="totalrate_'+id+'">Total Rates: </small>Rs.'+grandTotal+'/<small class="small">Night</small>')

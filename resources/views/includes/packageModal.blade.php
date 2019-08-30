@@ -55,7 +55,7 @@
                         <label>Additional bed rates</label>
                         <input type="number" name="additionalBedRate" id="UpdateadditionalBedRate" class="form-control inputclear" placeholder="Additional bed rates">
                     </div>
-                    <input type="hidden" name="UpdatePackageId" id="UpdatePackageId">
+                    <input type="hidden" name="UpdatePackageId" id="UpdatePackageId" class="form-control inputclear">
                     <button type="submit" name="submit" onclick="UpdatePackage()" class="btn btn-success">Update</button>
                 </form>
             </div>

@@ -139,12 +139,12 @@ class BookingController extends Controller
             'br_bedmRate' => $TotalBedRate,
             'br_totalRate' => $FinalTotal,
         ]);
-        return $this->email($quantity,$bed,$ratebed,
+        return $this->Customermail($quantity,$bed,$ratebed,
         $fixedrate,$id,$image,$r_name,$additionalPackage,$TotalRoomRate,
         $TotalBedRate,$TotalPackageRate,$FinalTotal,$additionalbed,
         $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL);
     }
-    public function email($quantity,$bed,$ratebed,
+    public function Customermail($quantity,$bed,$ratebed,
     $fixedrate,$id,$image,$r_name,$additionalPackage,$TotalRoomRate,
     $TotalBedRate,$TotalPackageRate,$FinalTotal,$additionalbed,
     $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL)
@@ -152,14 +152,28 @@ class BookingController extends Controller
         $data = [
             'mail' => $CUSTOMER_EMAIL,
             'name' => $CUSTOMER_NAME,
-            'owner_mail' => $OWNER_MAIL
+            'bookingId' => $BookingTable
         ];
+        $emails = [$CUSTOMER_EMAIL]; 
 
-        $mail = Mail::send('mails.BookingMail', $data, function($message) use($data) {
-            $message->to($data['mail'],$data['owner_mail'])->subject('Test Mail');
+        $mail = Mail::send('mails.BookingCustomerMail', $data, function($message) use($emails) {
+            $message->to($emails)->subject('Customer Mail');
         });
 
-        return $mail;
+        return $this->Ownermail($BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL);
     }
-    
+    public function Ownermail($BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL)
+    {
+        $data = [
+            'name' => $CUSTOMER_NAME,
+            'bookingId' => $BookingTable
+        ];
+        $emails = [$OWNER_MAIL];
+
+        $mail = Mail::send('mails.BookingOwnerMail', $data, function($message) use($emails) {
+            $message->to($emails)->subject('Owner Mail');
+        });
+
+        return response()->json();
+    }
 }

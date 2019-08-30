@@ -44,4 +44,8 @@ Route::post('update-package', 'AdminController@PackageUpdate');
 
 Route::get('view-reservation/{id}/{package}', 'AdminController@ViewReservation');  
 Route::get('confirm-book/{b_id}', 'AdminController@ConfirmBook');
-Route::get('live/{b_id}', 'AdminController@Live');
+Route::get('live/{b_id}', 'AdminController@Live'); 
+Route::post('Orders', 'AdminController@Orders'); 
+Route::post('print', 'AdminController@Print'); 
+Route::get('delete-reservation/{id}', 'AdminController@DeleteReservation');  
+Route::get('booking-complete/{b_id}', 'AdminController@BookingComplete');
