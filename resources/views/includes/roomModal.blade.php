@@ -28,6 +28,10 @@
                             <input type="number" name="additionalBedRate" id="additionalBedRate" class="form-control inputclear" placeholder="Additional bed rates">
                         </div>
                         <div class="form-group">
+                            <label>Room description</label>
+                            <textarea name="description" id="description" class="form-control inputclear" rows="5" placeholder="Room description"></textarea>
+                        </div>
+                        <div class="form-group">
                             <label>Room image</label>
                             <input type="file" name="roomImage" id="roomImage" class="form-control inputclear">
                         </div>
@@ -66,6 +70,10 @@
                         <div class="form-group">
                             <label>Additional bed rates</label>
                             <input type="number" name="additionalBedRate" id="UpdateadditionalBedRate" class="form-control inputclear" placeholder="Additional bed rates">
+                        </div>
+                        <div class="form-group">
+                            <label>Room description</label>
+                            <textarea name="description" id="Updatedescription" class="form-control inputclear" rows="5" placeholder="Room description"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Room image</label>

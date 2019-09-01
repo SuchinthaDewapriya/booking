@@ -47,13 +47,13 @@ body {
 }
 
 a {
-  color: #FBB448;
+  color: #28338B;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
 }
 a:hover, a:active, a:focus {
-  color: #FBB448;
+  color: #28338B;
   outline: none;
   text-decoration: none;
 }
@@ -71,17 +71,17 @@ h1, h2, h3, h4, h5, h6, figure {
 
 ::-webkit-selection {
   color: #fff;
-  background: #FBB448;
+  background: #28338B;
 }
 
 ::-moz-selection {
   color: #fff;
-  background: #FBB448;
+  background: #28338B;
 }
 
 ::selection {
   color: #fff;
-  background: #FBB448;
+  background: #28338B;
 }
 
 .gtco-container {
@@ -116,7 +116,7 @@ h1, h2, h3, h4, h5, h6, figure {
   font-weight: bold;
 }
 .gtco-nav #gtco-logo em {
-  color: #FBB448;
+  color: #28338B;
 }
 .gtco-nav a {
   padding: 5px 10px;
@@ -202,7 +202,7 @@ h1, h2, h3, h4, h5, h6, figure {
   font-size: 15px;
 }
 .gtco-nav ul li.has-dropdown .dropdown li a:hover {
-  color: #FBB448;
+  color: #28338B;
 }
 .gtco-nav ul li.has-dropdown .dropdown li.active > a {
   color: #000 !important;
@@ -211,7 +211,7 @@ h1, h2, h3, h4, h5, h6, figure {
   color: #fff;
 }
 .gtco-nav ul li.btn-cta a {
-  color: #FBB448;
+  color: #28338B;
 }
 .gtco-nav ul li.btn-cta a span {
   border: 2px solid rgba(255, 255, 255, 0.5);
@@ -231,10 +231,10 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 .gtco-nav ul li.btn-cta a:hover span {
   background: #fff;
-  color: #FBB448;
+  color: #28338B;
 }
 .gtco-nav ul li.active > a {
-  color: #FBB448 !important;
+  color: #28338B !important;
 }
 
 #gtco-header {
@@ -304,7 +304,7 @@ h1, h2, h3, h4, h5, h6, figure {
   margin-bottom: 30px;
 }
 #gtco-header .form-wrap {
-  border-top: 10px solid #FBB448;
+  border-top: 10px solid #28338B;
   position: relative;
   width: 100%;
   -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
@@ -346,7 +346,7 @@ h1, h2, h3, h4, h5, h6, figure {
   display: block;
   padding: 10px 20px 20px 20px;
   background: #fff;
-  color: #FBB448;
+  color: #28338B;
 }
 #gtco-header .form-wrap .tab-menu li.gtco-first a {
   border-top-left-radius: 7px;
@@ -466,7 +466,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 
 .gtco-cover a {
-  color: #FBB448;
+  color: #28338B;
 }
 .gtco-cover a:hover {
   color: white;
@@ -498,7 +498,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 
 .gtco-cover-custom a {
-  color: #FBB448;
+  color: #28338B;
 }
 .gtco-cover-custom a:hover {
   color: white;
@@ -682,7 +682,7 @@ h1, h2, h3, h4, h5, h6, figure {
   display: inline-block;
   zoom: 1;
   *display: inline;
-  color: #FBB448;
+  color: #28338B;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -748,7 +748,7 @@ form label {
 }
 
 .primary-color {
-  color: #FBB448 !important;
+  color: #28338B !important;
 }
 
 #gtco-header .display-tc,
@@ -815,7 +815,7 @@ form label {
 #gtco-counter .counter {
   font-size: 50px;
   margin-bottom: 10px;
-  color: #FBB448;
+  color: #28338B;
   font-weight: 100;
   display: block;
 }
@@ -881,7 +881,7 @@ form label {
 }
 
 #gtco-features {
-  background: #FBB448;
+  background: #28338B;
 }
 #gtco-features .gtco-heading h2 {
   color: #fff;
@@ -896,7 +896,7 @@ form label {
   width: 90px;
   height: 90px;
   border: 1px solid rgba(255, 255, 255, 0.8);
-  background: #FBB448;
+  background: #28338B;
 }
 #gtco-features .feature-center .icon i {
   color: #fff;
@@ -956,7 +956,7 @@ form label {
 .feature-center h3 {
   font-size: 22px;
   margin-bottom: 20px;
-  color: #FBB448;
+  color: #28338B;
   position: relative;
 }
 
@@ -975,7 +975,7 @@ form label {
   display: table-cell;
   vertical-align: middle;
   font-size: 40px;
-  color: #FBB448;
+  color: #28338B;
 }
 .feature-left .feature-copy {
   float: right;
@@ -1062,7 +1062,7 @@ form label {
 #gtco-subscribe .btn {
   height: 46px;
   border: none !important;
-  background: #FBB448;
+  background: #28338B;
   color: #fff;
   font-size: 16px;
   text-transform: uppercase;
@@ -1158,7 +1158,7 @@ form label {
   *display: inline;
 }
 #gtco-footer .footer-logo span {
-  color: #FBB448;
+  color: #28338B;
 }
 #gtco-footer .copyright {
   color: #666666;
@@ -1433,21 +1433,21 @@ form label {
 }
 
 .btn-primary {
-  background: #FBB448;
+  background: #28338B;
   color: #fff;
-  border: 2px solid #FBB448 !important;
+  border: 2px solid #28338B !important;
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-  background: #fcbe61 !important;
-  border-color: #fcbe61 !important;
+  background: #4B9BCD !important;
+  border-color: #4B9BCD !important;
 }
 .btn-primary.btn-outline {
   background: transparent;
-  color: #FBB448;
-  border: 2px solid #FBB448;
+  color: #28338B;
+  border: 2px solid #28338B;
 }
 .btn-primary.btn-outline:hover, .btn-primary.btn-outline:focus, .btn-primary.btn-outline:active {
-  background: #FBB448;
+  background: #28338B;
   color: #fff;
 }
 
@@ -1490,21 +1490,21 @@ form label {
 }
 
 .btn-warning {
-  background: #f0ad4e;
+  background: #28338B;
   color: #fff;
-  border: 2px solid #f0ad4e;
+  border: 2px solid #28338B;
 }
 .btn-warning:hover, .btn-warning:focus, .btn-warning:active {
-  background: #eea236 !important;
-  border-color: #eea236 !important;
+  background: #4B9BCD !important;
+  border-color: #4B9BCD !important;
 }
 .btn-warning.btn-outline {
   background: transparent;
-  color: #f0ad4e;
-  border: 2px solid #f0ad4e;
+  color: #28338B;
+  border: 2px solid #28338B;
 }
 .btn-warning.btn-outline:hover, .btn-warning.btn-outline:focus, .btn-warning.btn-outline:active {
-  background: #f0ad4e;
+  background: #28338B;
   color: #fff;
 }
 
@@ -1599,7 +1599,7 @@ form label {
 .form-control:active, .form-control:focus {
   outline: none;
   box-shadow: none;
-  border-color: #FBB448;
+  border-color: #28338B;
 }
 
 .row-mt-15em {
@@ -1661,7 +1661,7 @@ form label {
   margin-left: 0px;
 }
 .gtco-nav .gtco-contact ul li a i {
-  color: #FBB448;
+  color: #28338B;
 }
 .gtco-nav .gtco-contact ul li a:hover i {
   color: #fff;
@@ -1780,7 +1780,7 @@ form label {
 .owl-theme .owl-dots .owl-dot span {
   width: 10px;
   height: 10px;
-  background: #FBB448;
+  background: #28338B;
   -webkit-transition: 0.2s;
   -o-transition: 0.2s;
   transition: 0.2s;
@@ -1788,12 +1788,12 @@ form label {
 }
 .owl-theme .owl-dots .owl-dot span:hover {
   background: none;
-  border: 2px solid #FBB448;
+  border: 2px solid #28338B;
 }
 
 .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
   background: none;
-  border: 2px solid #FBB448;
+  border: 2px solid #28338B;
 }
 
 .fh5co-card-item {
@@ -1888,7 +1888,7 @@ form label {
   font-size: 20px;
   font-weight: 400;
   margin: 0 0 10px 0;
-  color: #FBB448;
+  color: #28338B;
 }
 .fh5co-card-item .fh5co-text span {
   color: #b3b3b3;
@@ -1906,7 +1906,7 @@ form label {
   visibility: visible;
   bottom: 0;
   font-size: 30px;
-  color: #FBB448;
+  color: #28338B;
   position: relative;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
@@ -1965,7 +1965,7 @@ form label {
   border-radius: 5px;
 }
 .price-box.popular {
-  border: 2px solid #FBB448;
+  border: 2px solid #28338B;
 }
 .price-box.popular .popular-text {
   top: 0;
@@ -1974,7 +1974,7 @@ form label {
   margin-top: -2em;
   position: absolute;
   padding: 4px 20px;
-  background: #FBB448;
+  background: #28338B;
   color: #fff;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -1988,7 +1988,7 @@ form label {
   left: 50%;
   margin-left: -10px;
   border-top: 10px solid black;
-  border-top-color: #FBB448;
+  border-top-color: #28338B;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
 }
@@ -2066,9 +2066,7 @@ form label {
 .room-name{
   font-family: 'Amaranth', sans-serif;
 }
-.font{
-  font-family: 'Amaranth', sans-serif;
-}
+
 
 
 
@@ -2095,20 +2093,20 @@ input[type="radio"]:disabled ~ label {
   height: 100%;
   display: block;
   background: white;
-  border: 2px solid #FBB448;
+  border: 2px solid #28338B;
   border-radius: 20px;
   text-align: center;
   box-shadow: 0px 3px 10px -2px hsla(150, 5%, 65%, 0.5);
   position: relative;
 }
 input[type="radio"]:checked + label {
-  background: #FBB448;
+  background: #28338B;
   color: white;
 }
 input[type="radio"]:checked + label::after {
   color: #3d3f43;
   font-family: FontAwesome;
-  border: 2px solid #FBB448;
+  border: 2px solid #28338B;
   content: "\f00c";
   font-size: 20px;
   position: absolute;
@@ -2132,7 +2130,7 @@ input[type="radio"]:checked + label::after {
   input[type="radio"]:checked + label::after {
     color: #3d3f43;
     font-family: FontAwesome;
-    border: 2px solid #FBB448;
+    border: 2px solid #28338B;
     content: "\f00c";
     font-size: 20px;
     position: absolute;
@@ -2171,8 +2169,15 @@ input[type="radio"]:checked + label::after {
 .unchecked{
   display: none;
 }
-.totalrate{
-  font-size: 16px;
-  font-weight: bold;
+
+.btn-reserve{
+  background-color: #28338B;
+  color:#fff !important;
+  width: 50%;
 }
+.reservation-card-success{
+  background-color: #4cae4c;
+}
+
+
 /*# sourceMappingURL=style.css.map */

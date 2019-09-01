@@ -18,6 +18,10 @@ use App\Bill;
 
 use App\CustomerDetail;
 
+use App\Setting;
+
+use Illuminate\Support\Facades\Validator;
+
 use Mail;
 
 class AdminController extends Controller
@@ -53,6 +57,12 @@ class AdminController extends Controller
         $Package = AdditionalPackage::get();
         return view('admin.packages')->with('Package',$Package);
     }
+    public function Setting()
+    {
+        $allmail = Setting::get();
+        // dd($allmail);
+        return view('admin.setting')->with('allmail',$allmail);
+    }
     public function AddNewRoom(Request $request)
     {
         // dd($request->all());
@@ -65,6 +75,7 @@ class AdminController extends Controller
             'r_quantity' => $request->roomQuantity,
             'r_bookquantity' => 0,
             'r_additional_bed' => $request->additionalBedRate,
+            'r_description' => $request->description,
             'r_image' => $imageName,
             'r_status' => 1
         ]);
@@ -73,7 +84,7 @@ class AdminController extends Controller
 
         return response()->json(['getRoom'=>$getRoom]);
     }
-    public function DeleteAllRooms()
+    public function DeleteAllRooms() 
     {
         $deleteAll = Room::truncate();
         
@@ -206,7 +217,8 @@ class AdminController extends Controller
         $emails = [$mail];
 
         $mail = Mail::send('mails.BookingConfirmMail', $data, function($message) use($emails) {
-            $message->to($emails)->subject('Owner Mail');
+            $message->to($emails)->subject('Monaara - Your reservation is successfully!');
+            $message->from('info@monaararesorts.com', 'Monaara Resorts');
         });
 
         Booking::where('b_id', $b_id)->update([
@@ -287,6 +299,25 @@ class AdminController extends Controller
         Booking::where('b_id', $b_id)->update([
             'b_status' => 3
         ]);
+
+        return redirect()->back();
+    }
+    public function NotificationEmail(Request $req)
+    {
+        // dd($req->email);
+        $req->validate([
+            'email' => 'required',
+        ]);
+        if ($req->custom_id == 2) {
+            Setting::insert([
+                's_mail' => $req->email
+            ]);
+        }else {
+            Setting::where('s_id',1)->update([
+                's_mail' => $req->email
+            ]);
+        }
+        
 
         return redirect()->back();
     }

@@ -21,7 +21,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+  <img src="{{ asset('public/images/logo.jpeg')}}" width="100px">
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -73,13 +73,13 @@
         </div>
       </form>
     <br>
-      <p class="mb-1">
+      {{-- <p class="mb-1">
             @if (Route::has('password.request'))
             <a class="btn btn-link" href="{{ route('password.request') }}">
                 {{ __('Forgot Your Password?') }}
             </a>
         @endif
-      </p>
+      </p> --}}
     </div>
     <!-- /.login-card-body -->
   </div>

@@ -20,6 +20,7 @@ class CreateRoomsTable extends Migration
             $table->integer('r_quantity'); 
             $table->integer('r_bookquantity');
             $table->integer('r_additional_bed');
+            $table->string('r_description');
             $table->string('r_image');
             $table->integer('r_status');
             $table->timestamps();

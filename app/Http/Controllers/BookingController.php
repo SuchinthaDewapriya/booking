@@ -18,6 +18,8 @@ use App\Setting;
 
 use Mail;
 
+use Illuminate\Support\Facades\Validator;
+
 class BookingController extends Controller
 {
     public function ConfirmOrder(Request $req)
@@ -47,6 +49,20 @@ class BookingController extends Controller
     }
     public function BookingTable(Request $req)
     {
+        $validator = Validator::make($req->all(),[
+            'salutation' => 'required',
+            'FirstName' => 'required', 
+            'LastName' => 'required',
+            'country' => 'required',
+            'mobile' => 'required',
+            'email' => 'required',
+            'Privacy' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
         $package = $req->package;
         $quantity = $req->quantity;
         $bed = $req->bed;
@@ -67,7 +83,7 @@ class BookingController extends Controller
         $checkOut = $req->checkOut;
 
         $OWNER_MAIL = $req->OwnerMail;
-        $CUSTOMER_NAME = $req->salutation.' '.$req->fname.' '.$req->lname;
+        $CUSTOMER_NAME = $req->salutation.' '.$req->FirstName.' '.$req->LastName;
         $CUSTOMER_EMAIL = $req->email;
 
 
@@ -84,8 +100,8 @@ class BookingController extends Controller
         $UserRegister = CustomerDetail::insertGetId([
             'cd_bookingid' => $BookingTable,
             'cd_salutation' => $req->salutation,
-            'cd_first_name' => $req->fname,
-            'cd_last_name' => $req->lname,
+            'cd_first_name' => $req->FirstName,
+            'cd_last_name' => $req->LastName,
             'cd_email' => $req->email,
             'cd_phone' => $req->mobile,
             'cd_country' => $req->country,
@@ -103,21 +119,30 @@ class BookingController extends Controller
     $TotalBedRate,$TotalPackageRate,$FinalTotal,$additionalbed,
     $packagerate,$days,$checkIn,$checkOut,$BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL)
     {
-       
+        // if (!empty($bed)) {
+        //     $bedFiled = array();
+        //     $bedFiled = $bed;
+        //     $dataSet = [];
 
-        if ($bed == '') {
-            $bedFiled = array();
-            $bedFiled = $bed;
-            $dataSet = [];
+        //     foreach ($bedFiled as $value) {
+        //         $dataSet[] = [
+        //             'bd_booking_id' => $BookingTable,
+        //             'bd_additionalbed_quantity' => $value,
+        //             'bd_status' => 1
+        //         ];
+        //     }
+        //     BookingDetail::insert($dataSet);
+        // }
 
-            foreach ($bedFiled as $value) {
-                $dataSet[] = [
-                    'bd_booking_id' => $BookingTable,
-                    'bd_additionalbed_quantity' => $value,
-                    'bd_status' => 1
-                ];
+        if (!empty($val)) {
+        foreach ($bed as $key => $val) {
+                $id = $BookingTable;
+                $variants = new BookingDetail;
+                $variants->bd_booking_id = $id;
+                $variants->bd_additionalbed_quantity = $val;
+                $variants->bd_status = 1;
+                $variants->save();
             }
-            BookingDetail::insert($dataSet);
         }
         
        
@@ -154,10 +179,10 @@ class BookingController extends Controller
             'name' => $CUSTOMER_NAME,
             'bookingId' => $BookingTable
         ];
-        $emails = [$CUSTOMER_EMAIL]; 
 
-        $mail = Mail::send('mails.BookingCustomerMail', $data, function($message) use($emails) {
-            $message->to($emails)->subject('Customer Mail');
+        $mail = Mail::send('mails.BookingCustomerMail', $data, function($message) use($data) {
+            $message->to($data['mail'])->subject('Thank you for your reservation');
+            $message->from('info@monaararesorts.com', 'Monaara Resorts');
         });
 
         return $this->Ownermail($BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL);
@@ -165,13 +190,14 @@ class BookingController extends Controller
     public function Ownermail($BookingTable,$CUSTOMER_NAME,$CUSTOMER_EMAIL,$OWNER_MAIL)
     {
         $data = [
+            'mail' => $OWNER_MAIL,
             'name' => $CUSTOMER_NAME,
             'bookingId' => $BookingTable
         ];
-        $emails = [$OWNER_MAIL];
 
-        $mail = Mail::send('mails.BookingOwnerMail', $data, function($message) use($emails) {
-            $message->to($emails)->subject('Owner Mail');
+        $mail = Mail::send('mails.BookingOwnerMail', $data, function($message) use($data) {
+            $message->to($data['mail'])->subject('You have new reservation');
+            $message->from('info@monaararesorts.com', 'Monaara Resorts');
         });
 
         return response()->json();

@@ -8,6 +8,8 @@ use App\Room;
 
 use App\AdditionalPackage;
 
+use Illuminate\Support\Facades\Validator;
+
 // use Cart;
 
 use Carbon\Carbon;
@@ -24,41 +26,22 @@ class SearchController extends Controller
         return view('reservation');
     }
     function CheckAvailability(Request $request) {
-            // $checkBooking = Booking::whereBetween('b_checkoutdate', [$request->checkIn, $request->checkOut])
-            //     ->pluck('b_id');
 
-            // $checkBookingRID = Booking::whereBetween('b_checkoutdate', [$request->checkIn, $request->checkOut])
-            // ->pluck('b_rid');
+            $validator = Validator::make($request->all(),[
+                'checkOut' => 'required',
+                'checkIn' => 'required',
+            ]);
 
-            // if (count($checkBooking) > 0) {
-            //     $test = Booking::where('b_id',$checkBooking)->pluck('b_quantity');
-            //     $roomQuantity = Room::where('r_id', '=', $checkBookingRID)->where('r_quantity','>=', $test)->pluck('r_id');
-            //     $checkRoom = Room::whereNotIn('r_id',$roomQuantity)->get();
-            // } else {
-            //     $checkRoom = Room::get();
-            // }
-            
-           
-            // dd($checkBooking);
-            //  if (count($checkBooking) > 0) {
-
-                
-            //      foreach ($checkBooking as $value) {
-            //         $roomQuantity = Room::where('r_id',$value->b_rid)->where('r_quantity','<=', $value->b_quantity)->pluck('r_id');
-            //      }
-
-            //         $checkRoom = Room::wherenotIn('r_id',$roomQuantity)->get();
-                
-                
-            //  } else {
-            //     $checkRoom = Room::get();
-
-            //  }
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()->all()]);
+            }
             
 
             $checkBookingId = Booking::where('b_checkoutdate', '>=' ,$request->checkIn)
             ->where('b_checkindate', '<=' ,$request->checkOut)
             ->pluck('b_rid');
+
+            
 
             
             // dd($checkBookingId);
@@ -70,23 +53,30 @@ class SearchController extends Controller
             $packages = AdditionalPackage::get();
 
             $days = $checkOutDate->diffInDays($checkInDate);
-
+ 
             $id = 0;
             if ( count($checkBookingId) > 0 ) {
-                $BookingQty = Booking::where('b_checkoutdate', '>=' ,$request->checkIn)
+            //     $newBookingQty = Booking::where('b_checkoutdate', '>=' ,$request->checkIn)
+            // ->where('b_checkindate', '<=' ,$request->checkOut)
+            // ->pluck('b_rquantity');
+            $BookingQty = Booking::where('b_checkoutdate', '>=' ,$request->checkIn)
             ->where('b_checkindate', '<=' ,$request->checkOut)
-            ->pluck('b_rquantity');
+            ->get();
+                $newBookingQty = 0;
+            foreach ($BookingQty as $value) {
+                $newBookingQty = $newBookingQty + $value->b_rquantity;
+            }
                 $room = Room::where('r_id',$checkBookingId)->get();
                 $roomQty = Room::where('r_id',$checkBookingId)->pluck('r_quantity');
                 foreach ($room as $rooms) {
-                    if ($rooms->r_quantity != 0) {
+                    if ($rooms->r_quantity >= $newBookingQty) {
                         $checkRoom = Room::get();
                     } 
                     else{
                         $checkRoom = Room::whereNotIn('r_id',$checkBookingId)->get();
                     }   
                     $id = 1;
-                    return response()->json(['BookingQty' => $BookingQty, 'roomQty' => $roomQty, 'checkIn' => $request->checkIn, 'checkOut' => $request->checkOut, 'checkRoom' => $checkRoom, 'id' => $id, 'days' => $days, 'packages' => $packages]);
+                    return response()->json(['BookingQty' => $newBookingQty, 'roomQty' => $roomQty, 'checkIn' => $request->checkIn, 'checkOut' => $request->checkOut, 'checkRoom' => $checkRoom, 'id' => $id, 'days' => $days, 'packages' => $packages]);
                 }
             } else {
                 $checkRoom = Room::get();

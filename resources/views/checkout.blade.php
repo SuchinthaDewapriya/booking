@@ -15,8 +15,8 @@
     </div>
 </header>
 <div class="gtco-section">
-    <div class="gtco-container">
-        <div class="row">
+    <div class="gtco-container checkout">
+        <div class="row"> 
             <div class="col-md-1"></div>
             <div class="col-md-10">
                 <div class="animate-box" data-animate-effect="fadeInRight">
@@ -82,26 +82,30 @@
                                                         <div class="form-group col-md-2">
                                                             <label for="Salutation">Salutation</label>
                                                             <select name="salutation" id="Salutation" class="form-control">
-                                                                <option value="mr">Mr</option>
-                                                                <option value="miss">Miss</option>
-                                                                <option value="mrs">Mrs</option>
+                                                                <option value="Mr">Mr</option>
+                                                                <option value="Miss">Miss</option>
+                                                                <option value="Mrs">Mrs</option>
                                                             </select>
                                                         </div>
                                                         <div class="form-group col-md-5">
                                                             <label for="fname">First Name</label>
-                                                            <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name">
+                                                            <input type="text" class="form-control" name="FirstName" id="fname" placeholder="First Name">
                                                         </div>
                                                         <div class="form-group col-md-5">
                                                         <label for="lname">Last Name</label>
-                                                        <input type="text" class="form-control" name="lname" id="lname" placeholder="Last Name">
+                                                        <input type="text" class="form-control" name="LastName" id="lname" placeholder="Last Name">
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-12">
+                                                        @php
+                                                            $country = DB::table('apps_countries')->get();
+                                                        @endphp
                                                         <label for="country">Country</label>
                                                         <select name="country" class="form-control" id="country">
-                                                            <option value="Sri Lanka">Sri Lanka</option>
-                                                            <option value="United States">United States</option>
-                                                            <option value="India">India</option>
+                                                            <option value="Sri Lanka">Select country</option>
+                                                            @foreach ($country as $item)
+                                                                <option value="{{$item->country_name}}">{{$item->country_name}}</option>    
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-12">
@@ -118,16 +122,19 @@
                                                     </div>
                                                     <div class="form-group col-md-12">
                                                         <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="gridCheck">
+                                                        <input class="form-check-input" type="checkbox" name="Privacy" id="gridCheck" value="true">
                                                         <label class="form-check-label" for="gridCheck">
                                                             Check me out
                                                         </label>
                                                         </div>
                                                     </div>
                                                     <input type="hidden" name="quantity" value="{{$quantity}}">
+                                                    @if ($bed != '')
                                                     @foreach ($bed as $item)
-                                                        <input type="hidden" name="bed[]" value="{{$item}}">
-                                                    @endforeach
+                                                    <input type="hidden" name="bed[]" value="{{$item}}">
+                                                @endforeach
+                                                    @endif
+                                                    
                                                     {{-- <input type="hidden" name="bed[]" value="{{$bed}}"> --}}
                                                     @foreach ($setting as $item)
                                                         <input type="hidden" name="OwnerMail" value="{{$item->s_mail}}">
@@ -152,6 +159,13 @@
                                                         <button type="button" onclick="BookNow()" class="btn btn-primary">Reserve Now <img width="20px" src='{{ asset('public/images/reserveLoader.gif') }}' id="bookingLoader" style='display: none;'></button>
                                                     </div>    
                                                 </form>
+                                                <div id="salutationError"></div>
+                                                <div id="fnameError"></div>
+                                                <div id="lnameError"></div>
+                                                <div id="countryError"></div>
+                                                <div id="mobileError"></div>
+                                                <div id="emailError"></div>
+                                                <div id="checkmeError"></div>
                                             </div>
                                         </h5>
                                     </div>
@@ -178,8 +192,50 @@
             $("#bookingLoader").show();
             },
             success: function (response) {
-                $('.animate-box').empty()
-                swal('Reserved!','Your room reserved.','success')
+                if (response.errors) {
+                    $('#salutationError').empty()
+                    $('#fnameError').empty()
+                    $('#lnameError').empty()
+                    $('#countryError').empty()
+                    $('#mobileError').empty()
+                    $('#emailError').empty()
+                    $('#checkmeError').empty()
+
+                    if (response.errors[0] != null) {
+                        $('#salutationError').append('<div class="alert alert-danger">'+response.errors[0]+'</div>')
+                    }
+                    if (response.errors[1] != null) {
+                        $('#fnameError').append('<div class="alert alert-danger">'+response.errors[1]+'</div>')
+                    }
+                    if (response.errors[2] != null) {
+                        $('#lnameError').append('<div class="alert alert-danger">'+response.errors[2]+'</div>')
+                    }
+                    if (response.errors[3] != null) {
+                        $('#countryError').append('<div class="alert alert-danger">'+response.errors[3]+'</div>')
+                    }
+                    if (response.errors[4] != null) {
+                        $('#mobileError').append('<div class="alert alert-danger">'+response.errors[4]+'</div>')
+                    }
+                    if (response.errors[5] != null) {
+                        $('#emailError').append('<div class="alert alert-danger">'+response.errors[5]+'</div>')
+                    }
+                    if (response.errors[6] != null) {
+                        $('#checkmeError').append('<div class="alert alert-danger">'+response.errors[6]+'</div>')
+                    }
+                } else {
+                    $('#salutationError').empty()
+                    $('#fnameError').empty()
+                    $('#lnameError').empty()
+                    $('#countryError').empty()
+                    $('#mobileError').empty()
+                    $('#emailError').empty()
+                    $('#checkmeError').empty()
+                    $('.checkoutError').empty()
+
+                    swal('Reserved!','Your room reserved.','success')
+                    $('.checkout').empty()
+                    $('.checkout').append('<div class="row"><div class="col-md-1"></div><div class="col-md-10"><div><div class="card reservation-card reservation-card-success"><div class="card-body"><div class="card reservation-card"><div class="card-body"><center><h1>Successfully reservation!</h1><span>Your reservation is under review')
+                }
             },
             complete:function(data){
             // Hide image container

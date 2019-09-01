@@ -35,6 +35,7 @@ Route::get('delete-all-rooms', 'AdminController@DeleteAllRooms');
 Route::get('room-delete/{id}', 'AdminController@RoomDelete'); 
 Route::get('edit-room/{id}', 'AdminController@RoomEdit'); 
 Route::post('update-room', 'AdminController@RoomUpdate');
+Route::get('setting', 'AdminController@Setting');
 
 Route::post('add-new-package', 'AdminController@AddNewPackage'); 
 Route::get('delete-all-packages', 'AdminController@DeleteAllPackages'); 
@@ -49,3 +50,4 @@ Route::post('Orders', 'AdminController@Orders');
 Route::post('print', 'AdminController@Print'); 
 Route::get('delete-reservation/{id}', 'AdminController@DeleteReservation');  
 Route::get('booking-complete/{b_id}', 'AdminController@BookingComplete');
+Route::post('notification-email', 'AdminController@NotificationEmail');

@@ -72,6 +72,7 @@
         $('#roomRate').val('')
         $('#roomQuantity').val('')
         $('#additionalBedRate').val('')
+        $('#description').val('')
         $('.bd-newroom-modal-lg').modal('show')
     }
     
@@ -100,8 +101,9 @@
                 $.each(response.getRoom,function(k,v) { 
                     $('#roomTable').append('<tr><td><img src="{{ asset('public/images/rooms')}}/'
                     +v.r_image+'" width="50px"></td><td>'+v.r_name+'</td><td>'+v.r_price+'</td><td>'
-                    +v.r_quantity+'</td><td>'+v.r_additional_bed+'</td><td><a onclick="DeleteSingleRoom('+v.r_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a href="{{ url('room-edit')}}/'
-                    +v.r_id+'" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
+                    +v.r_quantity+'</td><td>'+v.r_additional_bed+'</td><td><a onclick="DeleteSingleRoom('
+                    +v.r_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a onclick="EditRoom('
+                    +v.r_id+')" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
                 })
             }
         })
@@ -127,8 +129,8 @@
                     $('#roomTable').append('<tr><td><img src="{{ asset('public/images/rooms')}}/'
                     +v.r_image+'" width="50px"></td><td>'+v.r_name+'</td><td>'+v.r_price+'</td><td>'
                     +v.r_quantity+'</td><td>'+v.r_additional_bed+'</td><td><a onclick="DeleteSingleRoom('
-                    +v.r_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a href="{{ url('room-edit')}}/'
-                    +v.r_id+'" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
+                    +v.r_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a onclick="EditRoom('
+                    +v.r_id+')" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
                     })
                     swal("Poof! Your imaginary file has been deleted!", {
                         icon: "success",
@@ -158,10 +160,10 @@
                         $('#roomTable').empty()
                         $.each(response.getRoom,function(k,v) { 
                             $('#roomTable').append('<tr><td><img src="{{ asset('public/images/rooms')}}/'
-                            +v.r_image+'" width="50px"></td><td>'+v.r_name+'</td><td>'+v.r_price+'</td><td>'
-                            +v.r_quantity+'</td><td>'+v.r_additional_bed+'</td><td><a onclick="DeleteSingleRoom('
-                            +v.r_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a href="{{ url('room-edit')}}/'
-                            +v.r_id+'" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
+                    +v.r_image+'" width="50px"></td><td>'+v.r_name+'</td><td>'+v.r_price+'</td><td>'
+                    +v.r_quantity+'</td><td>'+v.r_additional_bed+'</td><td><a onclick="DeleteSingleRoom('
+                    +v.r_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a onclick="EditRoom('
+                    +v.r_id+')" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
                         })
                     }
                 });
@@ -185,6 +187,7 @@
                 $('#UpdateroomRate').val(response.r_price)
                 $('#UpdateroomQuantity').val(response.r_quantity)
                 $('#UpdateadditionalBedRate').val(response.r_additional_bed)
+                $('#Updatedescription').val(response.r_description)
                 $('.bd-updateroom-modal-lg').modal('show')
             }
         });
@@ -209,8 +212,9 @@
                 $.each(response.getRoom,function(k,v) { 
                     $('#roomTable').append('<tr><td><img src="{{ asset('public/images/rooms')}}/'
                     +v.r_image+'" width="50px"></td><td>'+v.r_name+'</td><td>'+v.r_price+'</td><td>'
-                    +v.r_quantity+'</td><td>'+v.r_additional_bed+'</td><td><a onclick="DeleteSingleRoom('+v.r_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a href="{{ url('room-edit')}}/'
-                    +v.r_id+'" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
+                    +v.r_quantity+'</td><td>'+v.r_additional_bed+'</td><td><a onclick="DeleteSingleRoom('
+                    +v.r_id+')" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></a><a onclick="EditRoom('
+                    +v.r_id+')" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a></td></tr>')
                 })
             }
         })

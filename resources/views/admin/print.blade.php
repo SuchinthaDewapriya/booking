@@ -46,7 +46,7 @@
                 </center></p>
             </div>
             <div class="col-4">
-                <img class="float-right" src="{{ asset('public/images/tempLogo.png')}}" width="50px" alt="">
+                <img class="float-right" src="{{ asset('public/images/logo.jpeg')}}" width="50px" alt="">
             </div>
         </div>
         <hr>
