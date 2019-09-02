@@ -199,7 +199,7 @@
                     $('.Bill').append('<tr><td style="width:70%">'+v.bill_pro_name+'</td><td style="width:15%">'
                     +v.bill_pro_qty+'</td><td style="width:15%">Rs.'
                     +v.bill_pro_price+'</td></tr>')
-                    GrandTotal = GrandTotal + v.bill_pro_price
+                    GrandTotal = parseInt(GrandTotal) + parseInt(v.bill_pro_price)
                   })
                   $('#OrdersProName').val(response.ViewReservation.bill.bill_pro_name)
                   $('#OrdersProQty').val(response.ViewReservation.bill.bill_pro_qty)

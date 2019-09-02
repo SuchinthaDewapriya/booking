@@ -134,7 +134,7 @@ class BookingController extends Controller
         //     BookingDetail::insert($dataSet);
         // }
 
-        if (!empty($val)) {
+        if (!empty($bed)) {
         foreach ($bed as $key => $val) {
                 $id = $BookingTable;
                 $variants = new BookingDetail;

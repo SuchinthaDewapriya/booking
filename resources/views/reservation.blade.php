@@ -219,8 +219,8 @@ function Check() {
                     +'<input onchange="roomQuantityChange('+v.r_id+', '+v.r_price+', '+v.r_additional_bed+')" class="form-control roomQuantity roomQuantity2_'
                     +v.r_id+'" name="quantity" placeholder="Quantity" type="number" max="'
                     +maxquantity+'" data-id="'
-                    +v.r_id+'" min="1" id="r_newquantity'
-                    +v.r_id+'"></div><div class="col-md-4"></div><div class="col-md-4 align-middle"><span class="rates rates_'
+                    +v.r_id+'" value="1" min="1" id="r_newquantity'
+                    +v.r_id+'"></div><div class="col-md-3"></div><div class="col-md-5 align-middle"><span class="rates rates_'
                     +v.r_id+'"><small class="small">Room Rates: </small>Rs.'+roomFirstPrice+'/<small class="small">'+response.days+' Night</small></span></div><input type="hidden" id="rate" class="totalratebed_'
                     +v.r_id+'" name="ratebed" value="'
                     +v.r_price+'"><input type="hidden" id="rate" class="totalrate_'
@@ -228,7 +228,7 @@ function Check() {
                     +v.r_price+'"><input type="hidden" id="fixedrate_'
                     +v.r_id+'" name="fixedrate" value="'
                     +v.r_price+'"></div><div class="row rates"><div class="packageRate_'
-                    +v.r_id+'"></div></div><div class="row rates"><div class="bedRate_'+v.r_id+'"></div></div><br><div class="row"><div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><div id="TotalRate_'+v.r_id+'"><small class="totalrate1_'+v.r_id+'">Total Rates: </small>Rs.'+roomFirstPrice+'/<small class="small">'+response.days+' Night</small></div></div></div><br><div class="row"><div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4 mobile-padding"><input type="hidden" name="id" value="'
+                    +v.r_id+'"></div></div><div class="row rates"><div class="bedRate_'+v.r_id+'"></div></div><br><div class="row"><div class="col-md-4"></div><div class="col-md-3"></div><div class="col-md-5"><div id="TotalRate_'+v.r_id+'"><small class="totalrate1_'+v.r_id+'">Total Rates: </small>Rs.'+roomFirstPrice+'/<small class="small">'+response.days+' Night</small></div></div></div><br><div class="row"><div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4 mobile-padding"><input type="hidden" name="id" value="'
                     +v.r_id+'" ><input type="hidden" value="'
                     +v.r_image+'" id="image'
                     +v.r_id+'" name="image"><input type="hidden" name="r_name" id="r_name'
@@ -313,7 +313,7 @@ function calBedRate(room_id){
   })
   totalBedRate = bedTotal
   $('.rooms .TotalBedRate_'+room_id).attr({"value":totalBedRate});   
-  $(".rooms .bedRate_"+room_id).html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Bed Rates :</small>Rs.'+totalBedRate+'/<small class="small">'+days+' Night</small></div>');
+  $(".rooms .bedRate_"+room_id).html('<div class="col-md-4"></div><div class="col-md-3"></div><div class="col-md-5"><small class="small">Bed Rates :</small>Rs.'+totalBedRate+'/<small class="small">'+days+' Night</small></div>');
 
 }
 // Radio button
@@ -337,7 +337,7 @@ function radioChange(additionalBedRate, price, id){
   
   totalPackageRate = parseInt(packageBedRate) + tempPackageRate
   $('.rooms .TotalPackageRate_'+id).attr({"value":totalPackageRate})
-  $(".rooms .packageRate_"+id).html('<div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"><small class="small">Package Rates:</small>Rs.'+totalPackageRate+'/<small class="small">'+days+' Night</small></div>');
+  $(".rooms .packageRate_"+id).html('<div class="col-md-4"></div><div class="col-md-3"></div><div class="col-md-5"><small class="small">Package Rates:</small>Rs.'+totalPackageRate+'/<small class="small">'+days+' Night</small></div>');
   calculateTotal(id)
 }
 // Calculate total

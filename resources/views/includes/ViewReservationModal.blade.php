@@ -47,8 +47,8 @@
                                 <div class="col-md-4">
                                     <select name="paymentMethod" class="form-control" id="">
                                         <option value="">Select payment method</option>
-                                        <option value="cash">Cash</option>
-                                        <option value="creditCard">Credit Card</option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Credit Card">Credit Card</option>
                                     </select><br>
                                 </div>
                             </div>

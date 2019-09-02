@@ -14,7 +14,7 @@
     color: #fff;
     font-weight: bold;
     
-    background-color: #666666;
+    background-color: #666666; 
     padding: 10px;
     padding-top:17px;
 }    
@@ -111,7 +111,16 @@
                     @endforeach
                 </tbody>
             </table>
-        </div><br><br>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <div class="col-5 ">
+                <p class="float-right"><b>{{$paymentMethod}} payment</b></p>
+            </div>
+        </div>
+        <br><br>
         <div class="row">
             <div class="col-4"></div>
             <div class="col-3"></div>
