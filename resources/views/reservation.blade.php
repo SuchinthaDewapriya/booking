@@ -181,6 +181,8 @@ function Check() {
             $("#searchLoader").show();
         },
         success: function (response) {
+            let booked_rooms = response.booked_rooms
+            
             if (response.errors) {
                 $('#checkInError').empty()
                 $('#checkOutError').empty()
@@ -197,10 +199,13 @@ function Check() {
                 $('#checkOutError').empty()
             if (response.checkRoom.length != 0) {
                 if ((parseInt(response.roomQty) - parseInt(response.BookingQty)) != 0) {
-                    $.each(response.checkRoom, function(k,v){
+            $.each(response.checkRoom, function(k,v){
+                if(!objectHasKey(booked_rooms, v.r_id)){
+                    booked_rooms[v.r_id]
+                }
                 var maxquantity = 0;
                 if (response.id ==  1) {
-                    maxquantity = parseInt(response.roomQty) - parseInt(response.BookingQty);
+                    maxquantity = parseInt(v.r_quantity) - parseInt(booked_rooms[v.r_id]);
                 } else if(response.id ==  2) {
                     maxquantity = v.r_quantity;
                 }
@@ -340,16 +345,22 @@ function radioChange(additionalBedRate, price, id){
   } else {
     tempPackageRate = parseInt(price) * parseInt(days)
   }
-  
-  totalPackageRate[id] = parseInt(packageBedRate) + tempPackageRate
+
+  totalPackageRate[id] = parseInt(packageBedRate) + parseInt(tempPackageRate)
   $('.rooms .TotalPackageRate_'+id).attr({"value":totalPackageRate[id]})
   $(".rooms .packageRate_"+id).html('<div class="col-md-4"></div><div class="col-md-3"></div><div class="col-md-5"><small class="small">Package Rates:</small>Rs.'+totalPackageRate[id]+'/<small class="small">'+days+' Night</small></div>');
   calculateTotal(id)
+
 }
 // Calculate total
 function calculateTotal(id){
     var days = $(".rooms #days"+id).val()
+    checkPackageValue(id)
+    console.log(roomRates[id])
+    console.log(totalBedRate[id])
+    console.log(totalPackageRate[id])
   let grandTotal = roomRates[id] + totalBedRate[id] + totalPackageRate[id]
+  console.log(grandTotal)
   $(".rooms .FinalTotal_"+id).attr({"value":grandTotal})
   $(".rooms #TotalRate_"+id).html('<small class="totalrate_'+id+'">Total Rates: </small>Rs.'+grandTotal+'/<small class="small">'+days+' Night</small>')
 //   console.log('---')
@@ -369,6 +380,14 @@ function checkPackageValue(id){
     }
     if($.isEmptyObject(packageBRate) || !objectHasKey(packageBRate, id)){
         packageBRate[id] = 0
+    }
+
+    if($.isEmptyObject(roomRates) || !objectHasKey(roomRates, id)){
+        roomRates[id] = 0
+    }
+
+    if($.isEmptyObject(totalBedRate) || !objectHasKey(totalBedRate, id)){
+        totalBedRate[id] = 0
     }
 }
 
