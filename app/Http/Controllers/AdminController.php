@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Validator;
 
 use Mail;
 
+use Fpdf;
+
 class AdminController extends Controller
 {
     public function __construct()
@@ -324,5 +326,107 @@ class AdminController extends Controller
     public function NewAdminReservation()
     {
         return view('admin.newReservation');
+    }
+    public function Customers()
+    {
+        $Customer = CustomerDetail::get();
+        return view('admin.Customers')->with('Customer', $Customer);
+    }
+    public function ReservationPDF()
+    {
+        $currentMonth = date('m');
+        $booking = Booking::join('rooms', 'bookings.b_rid', '=', 'rooms.r_id')
+        ->join('booking_rates', 'bookings.b_id', '=', 'booking_rates.br_bookingid')
+        ->whereRaw('MONTH(bookings.b_checkindate) = ?',[$currentMonth])
+        ->get();
+
+        
+
+        Fpdf::AddPage();
+        Fpdf::SetFont('Arial','B',16);
+
+        // Logo
+        // Fpdf::Image('public/images/logo.png',10,6,30);
+        // Move to the right
+        Fpdf::Cell(80);
+        // Title
+        Fpdf::Cell(20,10,'Monthly Reservation Report - Monara Resorts',2,0,'C');
+        // Line break
+        Fpdf::Ln(20);
+
+        Fpdf::SetFont('Arial','B',14);
+        Fpdf::Cell(10,10,'ID');
+        Fpdf::Cell(40,10,"Room Name");
+        Fpdf::Cell(40,10,"Arrival");
+        Fpdf::Cell(35,10,"Departure");
+        Fpdf::Cell(30,10,"Quantity");
+        Fpdf::Cell(30,10,"Rate (Rs.)");
+        Fpdf::Ln();
+
+        $MonthlyTotal = 0;
+        foreach($booking as $bookings)
+        {
+            $MonthlyTotal = $MonthlyTotal + $bookings->br_totalRate;
+            Fpdf::SetFont('Arial','',14);
+            Fpdf::Cell(10,10,$bookings->b_id);
+            Fpdf::Cell(40,10,$bookings->r_name);
+            Fpdf::Cell(40,10,$bookings->b_checkindate);
+            Fpdf::Cell(35,10,$bookings->b_checkoutdate);
+            Fpdf::Cell(30,10,$bookings->b_rquantity);
+            Fpdf::Cell(30,10,number_format($bookings->br_totalRate,2));
+            Fpdf::Ln();
+
+        }
+        Fpdf::SetFont('Arial','B',14);
+        Fpdf::Cell(135,20,'');
+        Fpdf::Cell(20,20,'Total :');
+        Fpdf::Cell(10,20,number_format($MonthlyTotal,2));
+        Fpdf::Output();
+        exit;
+    }
+    public function CustomerPDF()
+    {
+        $currentMonth = date('m');
+        $Customer = CustomerDetail::join('bookings', 'customer_details.cd_bookingid', '=', 'bookings.b_id')
+        ->whereRaw('MONTH(bookings.b_checkindate) = ?',[$currentMonth])
+        ->get();
+
+        Fpdf::AddPage('0');
+        Fpdf::SetFont('Arial','B',16);
+
+        // Logo
+        // Fpdf::Image('public/images/logo.png',10,6,30);
+        // Move to the right
+        Fpdf::Cell(130);
+        // Title
+        Fpdf::Cell(20,10,'Monthly Customers Report - Monara Resorts',2,0,'C');
+        // Line break
+        Fpdf::Ln(20);
+
+        Fpdf::SetFont('Arial','B',8);
+        Fpdf::Cell(40,10,'Customer ID');
+        Fpdf::Cell(40,10,'Booking ID');
+        Fpdf::Cell(60,10,"Name");
+        Fpdf::Cell(60,10,"Email");
+        Fpdf::Cell(35,10,"Phone");
+        Fpdf::Cell(30,10,"Country");
+        Fpdf::Ln();
+
+        $MonthlyTotal = 0;
+        foreach($Customer as $Customers)
+        {
+            $name = $Customers->cd_salutation.' '.$Customers->cd_first_name.' '.$Customers->cd_last_name;
+            Fpdf::SetFont('Arial','',8);
+            Fpdf::Cell(40,10,$Customers->cd_id);
+            Fpdf::Cell(40,10,$Customers->cd_bookingid);
+            Fpdf::Cell(60,10,$name);
+            Fpdf::Cell(60,10,$Customers->cd_email);
+            Fpdf::Cell(35,10,$Customers->cd_phone);
+            Fpdf::Cell(30,10,$Customers->cd_country);
+            Fpdf::Ln();
+
+        }
+        Fpdf::Output();
+        exit;
     }
 }

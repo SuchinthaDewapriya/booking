@@ -6,7 +6,7 @@
     <div class="row main-padding">
         <h3>New Reservations</h3>
     </div>
-    <form id="checkForm">
+    <form id="checkForm"> 
         @csrf
     <div class="row main-padding">
         <div class="col-md-4">
@@ -36,6 +36,7 @@
                 <img src='{{ asset('public/images/dataloader.gif') }}'>
             </div>
         </center>
+        <form method="post" id="BookingForm">@csrf
         <div class="rooms">
         </div>
         <div id="checkInError"></div>
@@ -166,7 +167,7 @@
                          +v.p_price+'"><label for="control_0'+v.p_id+room_id+'" class="custom-label">'+v.p_name+'</label></div></section></div>'
                     })
                     var roomFirstPrice = v.r_price * response.days
-                    $('.rooms').append('<form method="post" id="BookingForm">@csrf<div class="card reservation-card"><div class="card-body"><div class="card reservation-card1"><div class="card-body"><div class="row"><div class="col-md-5"><img src="{{ asset('public/images/rooms')}}/'
+                    $('.rooms').append('<div class="card reservation-card"><div class="card-body"><div class="card reservation-card1"><div class="card-body"><div class="row"><div class="col-md-5"><img src="{{ asset('public/images/rooms')}}/'
                         +v.r_image+'" width="100%" alt=""></div><div class="col-md-7"><h2 class="room-name">'
                         +v.r_name+'</h2></div></div><hr><div class="row">'
                         +pack+'<input type="radio" class="package unchecked" id="unchecked" name="package" value="0" checked><label for="unchecked" class="custom-label unchecked"></label></div><hr><div class="row"><div class="col-md-12"><div class="additionalRoom'+v.r_id+'"></div></div></div><br><div class="row"><div class="col-md-4">'
