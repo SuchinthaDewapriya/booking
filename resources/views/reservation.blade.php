@@ -156,15 +156,18 @@
 
 
 <script type="text/javascript">
+var packagePrice = {}
+var packageBRate = {}
 var packageRate = {
   'price': 0,
   'bedRate': 0
 }
 var additionalBeds = {}
-var roomRates = 0
-var roomQty = 0
-var totalBedRate = 0
-var totalPackageRate = 0
+var roomRates = {}
+var roomQty = {}
+var totalBedRate = {}
+var totalPackageRate = {}
+
 
 function Check() {
     var checkForm = $("#checkForm").serialize();
@@ -192,14 +195,11 @@ function Check() {
             else{
                 $('#checkInError').empty()
                 $('#checkOutError').empty()
-                console.log(response.checkRoom)
             if (response.checkRoom.length != 0) {
                 if ((parseInt(response.roomQty) - parseInt(response.BookingQty)) != 0) {
                     $.each(response.checkRoom, function(k,v){
                 var maxquantity = 0;
                 if (response.id ==  1) {
-                    console.log(response.roomQty)
-                    console.log(response.BookingQty)
                     maxquantity = parseInt(response.roomQty) - parseInt(response.BookingQty);
                 } else if(response.id ==  2) {
                     maxquantity = v.r_quantity;
@@ -268,30 +268,34 @@ function Check() {
 
 // Room quantity
 function roomQuantityChange(id, price, bedRate){
-  roomQty = $('.roomQuantity2_'+id).val()
+    
+    checkPackageValue(id)
+  roomQty[id] = $('.roomQuantity2_'+id).val()
   var days = $(".rooms #days"+id).val()
-  roomRates = (roomQty * price ) * parseInt(days)
+  roomRates[id] = (roomQty[id] * price ) * parseInt(days)
   $('.rates_'+id).html('<small class="small">Room Rates: </small>Rs.'
-                        + parseFloat(roomRates)
+                        + parseFloat(roomRates[id])
                         + '/<small class="small">'+days+' Night</small>')
-  $('.rooms .TotalRoomRate_'+id).attr({"value":roomRates});                   
+  $('.rooms .TotalRoomRate_'+id).attr({"value":roomRates[id]});                   
 
   $(".rooms .packageRate_"+id).empty()
   $(".rooms .additionalRoom"+id).empty()
   $(".rooms .bedRate").empty()
-  totalBedRate = 0
-  if (roomQty > 0) { 
+  totalBedRate[id] = 0
+  if (roomQty[id] > 0) { 
       $(".rooms .additionalRoom"+id).append('<div class="row"><div class="col-md-12"><h3 class="room-name">Additional Bed</h3></div></div><div class="row">')
-      for (i = 0; i < roomQty; i++) {
+      for (i = 0; i < roomQty[id]; i++) {
           $(".rooms .additionalRoom"+id).append('<div class="col-md-4" style="padding:5px;"><input type="number" class="form-control additionalbedquantity" min="0" name="bed[]" onChange="addBeds('+i+','+bedRate+',this, '+id+')" id="additionalbedquantity'+(i+1)+'" placeholder="Room number '+(i+1)+'"></div>')
       }
       $(".rooms .additionalRoom"+id).append('</div></br></br>')
   }
-  radioChange(packageRate['bedRate'], packageRate['price'], id)
+  radioChange(packagePrice[id], packageBRate[id], id)
   calculateTotal(id)
+
 }
 // Add beds
 function addBeds(id, bedRate, that, room_id){
+    checkPackageValue(room_id)
   var days = $(".rooms #days"+room_id).val()
   let bedQty = $(that).val()
   let bedVal = (bedQty * bedRate) * parseInt(days)
@@ -300,7 +304,7 @@ function addBeds(id, bedRate, that, room_id){
     'qty': bedQty
   }
   calBedRate(room_id)
-  radioChange(packageRate['bedRate'], packageRate['price'], room_id)
+  radioChange(packagePrice[room_id], packageBRate[room_id], room_id)
   calculateTotal(room_id)
 }
 function calBedRate(room_id){
@@ -311,41 +315,69 @@ function calBedRate(room_id){
   $.each(additionalBeds, function(k, v){
     bedTotal += v.value
   })
-  totalBedRate = bedTotal
-  $('.rooms .TotalBedRate_'+room_id).attr({"value":totalBedRate});   
-  $(".rooms .bedRate_"+room_id).html('<div class="col-md-4"></div><div class="col-md-3"></div><div class="col-md-5"><small class="small">Bed Rates :</small>Rs.'+totalBedRate+'/<small class="small">'+days+' Night</small></div>');
+  totalBedRate[room_id] = bedTotal
+  $('.rooms .TotalBedRate_'+room_id).attr({"value":totalBedRate[room_id]});   
+  $(".rooms .bedRate_"+room_id).html('<div class="col-md-4"></div><div class="col-md-3"></div><div class="col-md-5"><small class="small">Bed Rates :</small>Rs.'+totalBedRate[room_id]+'/<small class="small">'+days+' Night</small></div>');
 
 }
 // Radio button
 function radioChange(additionalBedRate, price, id){
+  checkPackageValue(id)
   let totalBeds = 0
   let packageBedRate = 0
   var days = $(".rooms #days"+id).val()
-  console.log(days)
   packageRate['price'] = price
   packageRate['bedRate'] = additionalBedRate
+  packagePrice[id] = price
+  packageBRate[id] = additionalBedRate
 
   $.each(additionalBeds, function(k,v){
     totalBeds += parseInt(v.qty)
   })
   packageBedRate = (parseInt(totalBeds) * parseInt(additionalBedRate)) * parseInt(days)
-  if (roomQty > 0) {
-    tempPackageRate = (parseInt(price) * roomQty) * parseInt(days)
+  if (roomQty[id] > 0) {
+    tempPackageRate = (parseInt(price) * roomQty[id]) * parseInt(days)
   } else {
     tempPackageRate = parseInt(price) * parseInt(days)
   }
   
-  totalPackageRate = parseInt(packageBedRate) + tempPackageRate
-  $('.rooms .TotalPackageRate_'+id).attr({"value":totalPackageRate})
-  $(".rooms .packageRate_"+id).html('<div class="col-md-4"></div><div class="col-md-3"></div><div class="col-md-5"><small class="small">Package Rates:</small>Rs.'+totalPackageRate+'/<small class="small">'+days+' Night</small></div>');
+  totalPackageRate[id] = parseInt(packageBedRate) + tempPackageRate
+  $('.rooms .TotalPackageRate_'+id).attr({"value":totalPackageRate[id]})
+  $(".rooms .packageRate_"+id).html('<div class="col-md-4"></div><div class="col-md-3"></div><div class="col-md-5"><small class="small">Package Rates:</small>Rs.'+totalPackageRate[id]+'/<small class="small">'+days+' Night</small></div>');
   calculateTotal(id)
 }
 // Calculate total
 function calculateTotal(id){
     var days = $(".rooms #days"+id).val()
-  let grandTotal = roomRates + totalBedRate + totalPackageRate
+  let grandTotal = roomRates[id] + totalBedRate[id] + totalPackageRate[id]
   $(".rooms .FinalTotal_"+id).attr({"value":grandTotal})
   $(".rooms #TotalRate_"+id).html('<small class="totalrate_'+id+'">Total Rates: </small>Rs.'+grandTotal+'/<small class="small">'+days+' Night</small>')
+//   console.log('---')
+//   console.log(roomRates)
+// console.log(roomQty)
+// console.log(totalBedRate)
+// console.log(totalPackageRate)
+// console.log('package---')
+// console.log(packagePrice)
+// console.log(packageBRate)
+}
+
+function checkPackageValue(id){
+    // console.log(objectHasKey(packagePrice, id))
+    if($.isEmptyObject(packagePrice) || !objectHasKey(packagePrice, id)){
+        packagePrice[id] = 0
+    }
+    if($.isEmptyObject(packageBRate) || !objectHasKey(packageBRate, id)){
+        packageBRate[id] = 0
+    }
+}
+
+function objectHasKey(obj, key){
+    // let k = Object.keys(obj)
+    if(obj.hasOwnProperty(key)){
+        return true
+    }
+    return false
 }
 </script>
 @endsection
