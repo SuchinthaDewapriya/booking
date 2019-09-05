@@ -24,11 +24,12 @@ Route::get('reservation', 'SearchController@reservation');
 Route::post('confirm-order', 'BookingController@ConfirmOrder');
 Route::post('storeData', 'BookingController@BookingTable'); 
 
-//Admin Route
+//Admin Route 
 Route::get('admin', 'AdminController@Index');
 Route::get('reservations', 'AdminController@Reservations');
 Route::get('rooms', 'AdminController@Rooms');
 Route::get('packages', 'AdminController@Packages');
+Route::get('customers', 'AdminController@Customers');
 
 Route::post('add-new-room', 'AdminController@AddNewRoom'); 
 Route::get('delete-all-rooms', 'AdminController@DeleteAllRooms'); 
@@ -51,3 +52,9 @@ Route::post('print', 'AdminController@Print');
 Route::get('delete-reservation/{id}', 'AdminController@DeleteReservation');  
 Route::get('booking-complete/{b_id}', 'AdminController@BookingComplete');
 Route::post('notification-email', 'AdminController@NotificationEmail');
+
+Route::get('new-admin-reservation', 'AdminController@NewAdminReservation');
+Route::get('reservation-pdf', 'AdminController@ReservationPDF');
+Route::get('customer-pdf', 'AdminController@CustomerPDF');
+
+

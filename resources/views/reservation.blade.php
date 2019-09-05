@@ -38,7 +38,7 @@
                                                     </select>
                                                 </div>
                                             </div> --}}
-                                            <div class="row form-group">
+                                            <div class="row form-group"> 
                                                 <div class="col-md-12">
                                                     <label for="date-start">Arrival*</label>
                                                     <input type="date" name="checkIn" id="checkIn" class="form-control" required>

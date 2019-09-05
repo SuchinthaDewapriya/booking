@@ -139,4 +139,75 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade bd-NewBooking-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="">New Reservation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="BookingForm">
+                        @csrf
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label for="Salutation">Salutation</label>
+                                <select name="salutation" id="Salutation" class="form-control">
+                                    <option value="Mr">Mr</option>
+                                    <option value="Miss">Miss</option>
+                                    <option value="Mrs">Mrs</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label for="fname">First Name</label>
+                                <input type="text" class="form-control" name="FirstName" id="fname" placeholder="First Name">
+                            </div>
+                            <div class="form-group col-md-5">
+                            <label for="lname">Last Name</label>
+                            <input type="text" class="form-control" name="LastName" id="lname" placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            @php
+                                $country = DB::table('apps_countries')->get();
+                            @endphp
+                            <label for="country">Country</label>
+                            <select name="country" class="form-control" id="country">
+                                <option value="Sri Lanka">Select country</option>
+                                @foreach ($country as $item)
+                                    <option value="{{$item->country_name}}">{{$item->country_name}}</option>    
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="mobile">Mobile</label>
+                            <input type="tel" class="form-control" name="mobile" id="mobile" placeholder="Contact number">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="note">Note</label>
+                            <textarea id="note" class="form-control" name="note" rows="3" placeholder="Note"></textarea>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Privacy" id="gridCheck" value="true">
+                            <label class="form-check-label" for="gridCheck">
+                                Check me out
+                            </label>
+                            </div>
+                        </div>
+                        <div style="padding:15px;">
+                            <button type="button" onclick="BookNow()" class="btn btn-primary">Reserve Now <img width="20px" src='{{ asset('public/images/reserveLoader.gif') }}' id="bookingLoader" style='display: none;'></button>
+                        </div>    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     

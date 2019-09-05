@@ -5,6 +5,10 @@
     <div class="row main-padding">
       <h3>Reservations</h3>
     </div>
+    <div class="row main-padding">
+      <a href="{{ url('new-admin-reservation')}}" class="btn btn-warning">New Reservation</a> &nbsp;
+      <a href="{{ url('reservation-pdf')}}" class="btn btn-success">Monthly Report</a>
+    </div>
     <div class="row">
         <div class="card-body">
             <table id="Rooms" class="table table-bordered table-hover">
@@ -25,7 +29,7 @@
                   <tr @if($item->b_status == 2) class="bg-success" @endif @if($item->b_status == 3) class="bg-secondary" @endif>
                     <td>{{$item->b_id}}</td> 
                     <td>{{$item->r_name}}</td> 
-                    <td>{{$item->b_checkindate}}</td>
+                    <td>{{$item->b_checkindate}}</td> 
                     <td>{{$item->b_checkoutdate}}</td>
                     <td>{{$item->b_rquantity}}</td>
                     <td>Rs.{{$item->br_totalRate}}</td>
@@ -218,5 +222,9 @@
             }
         });
     } 
+
+    function NewBooking() {
+      $('.bd-NewBooking-modal-lg').modal('show')
+    }
   </script>
 @endsection 
