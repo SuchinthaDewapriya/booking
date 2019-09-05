@@ -55,6 +55,6 @@ Route::post('notification-email', 'AdminController@NotificationEmail');
 
 Route::get('new-admin-reservation', 'AdminController@NewAdminReservation');
 Route::get('reservation-pdf', 'AdminController@ReservationPDF');
-Route::get('customer-pdf', 'AdminController@CustomerPDF');
-
+Route::get('customer-pdf', 'AdminController@CustomerPDF'); 
+Route::get('reservation-calendar', 'AdminController@ReservationCalendar');
 

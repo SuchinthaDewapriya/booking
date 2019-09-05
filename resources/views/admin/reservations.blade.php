@@ -7,7 +7,8 @@
     </div>
     <div class="row main-padding">
       <a href="{{ url('new-admin-reservation')}}" class="btn btn-warning">New Reservation</a> &nbsp;
-      <a href="{{ url('reservation-pdf')}}" class="btn btn-success">Monthly Report</a>
+      <a href="{{ url('reservation-pdf')}}" class="btn btn-success">Monthly Report</a>&nbsp;
+      <a href="{{ url('reservation-calendar')}}" class="btn btn-danger">Reservation Calendar</a>
     </div>
     <div class="row">
         <div class="card-body">

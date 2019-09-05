@@ -26,6 +26,8 @@ use Mail;
 
 use Fpdf;
 
+use Calendar;
+
 class AdminController extends Controller
 {
     public function __construct()
@@ -428,5 +430,21 @@ class AdminController extends Controller
         }
         Fpdf::Output();
         exit;
+    }
+    public function ReservationCalendar()
+    {
+        $checkBooking = Booking::join('rooms', 'bookings.b_rid', '=', 'rooms.r_id')->get();
+        $bookingList = [];
+        foreach ($checkBooking as $key => $value) {
+            $bookingList[] = Calendar::event(
+                $value->r_name.' '.'x'.' '.$value->b_rquantity,
+                true,
+                new \DateTime($value->b_checkindate),
+                new \DateTime($value->b_checkoutdate.' +1 day')
+            );
+        }
+        $calender_details = Calendar::addEvents($bookingList);
+
+        return view('admin.ReservationCalendar')->with('calender_details', $calender_details);
     }
 }
