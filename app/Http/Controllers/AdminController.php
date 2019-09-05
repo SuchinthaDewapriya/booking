@@ -321,4 +321,8 @@ class AdminController extends Controller
 
         return redirect()->back();
     }
+    public function NewAdminReservation()
+    {
+        return view('admin.newReservation');
+    }
 }

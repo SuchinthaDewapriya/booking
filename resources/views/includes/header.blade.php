@@ -28,7 +28,7 @@
 	<!-- Magnific Popup -->
 	<link rel="stylesheet" href="{{ asset('public/css/magnific-popup.css')}}">
 
-	<!-- Bootstrap DateTimePicker -->
+	<!-- Bootstrap DateTimePicker --> 
 	<link rel="stylesheet" href="{{ asset('public/css/bootstrap-datetimepicker.min.css')}}">
 
 	<!-- Owl Carousel  -->

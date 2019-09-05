@@ -51,3 +51,6 @@ Route::post('print', 'AdminController@Print');
 Route::get('delete-reservation/{id}', 'AdminController@DeleteReservation');  
 Route::get('booking-complete/{b_id}', 'AdminController@BookingComplete');
 Route::post('notification-email', 'AdminController@NotificationEmail');
+
+Route::get('new-admin-reservation', 'AdminController@NewAdminReservation');
+
