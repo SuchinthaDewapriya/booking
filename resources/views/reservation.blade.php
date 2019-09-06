@@ -181,8 +181,11 @@ function Check() {
             $("#searchLoader").show();
         },
         success: function (response) {
-            let booked_rooms = response.booked_rooms
-            
+            let booked_rooms = {}
+            if(response.booked_rooms != null){
+                booked_rooms = response.booked_rooms
+            }
+                                              
             if (response.errors) {
                 $('#checkInError').empty()
                 $('#checkOutError').empty()
@@ -200,9 +203,11 @@ function Check() {
             if (response.checkRoom.length != 0) {
                 if ((parseInt(response.roomQty) - parseInt(response.BookingQty)) != 0) {
             $.each(response.checkRoom, function(k,v){
+                
                 if(!objectHasKey(booked_rooms, v.r_id)){
-                    booked_rooms[v.r_id]
+                    booked_rooms[v.r_id] = 0
                 }
+                console.log(booked_rooms)
                 var maxquantity = 0;
                 if (response.id ==  1) {
                     maxquantity = parseInt(v.r_quantity) - parseInt(booked_rooms[v.r_id]);
